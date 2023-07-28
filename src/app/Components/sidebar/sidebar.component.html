@@ -1,0 +1,72 @@
+<body class="home">
+  <div class="container-fluid display-table">
+    <div class="row display-table-row">
+      <div
+        class="col-md-12 col-sm-12 hidden-xs display-table-cell v-align box"
+        id="navigation"
+      >
+        <div class="logo">
+          <img
+            src="assets/images/logo.sidebar.png"
+            alt="Paioneer"
+            class="hidden-xs hidden-sm"
+          />
+        </div>
+        <div class="navi">
+          <ul>
+            <li>
+              <a [routerLink]="['/groups']"
+              [routerLinkActive]="'active'"
+                ><i class="fa fa-home" aria-hidden="true"></i
+                ><span class="hidden-xs hidden-sm">مجموعات</span></a
+              >
+            </li>
+            <li>
+              <a [routerLink]="['/users']"
+                ><i class="fa fa-user" aria-hidden="true"></i
+                ><span class="hidden-xs hidden-sm">مستخدمين</span></a
+              >
+            </li>
+            <li>
+              <a href="#"
+                ><i class="fa fa-bar-chart" aria-hidden="true"></i
+                ><span class="hidden-xs hidden-sm">  أقسام</span></a
+              >
+            </li>
+            <li>
+              <a [routerLink]="['/employees']"
+                ><i class="fa fa-user" aria-hidden="true"></i
+                ><span class="hidden-xs hidden-sm"> موظفين</span></a
+              >
+            </li>
+            <li>
+              <a [routerLink]="['/generalsettings']"
+                ><i class="fa fa-cog" aria-hidden="true"></i
+                ><span class="hidden-xs hidden-sm"> أعدادت عامه</span></a
+              >
+            </li>
+            <li>
+              <a href="#"
+                ><i class="fa fa-calendar" aria-hidden="true"></i
+                ><span class="hidden-xs hidden-sm">  أجازات رسميه</span></a
+              >
+            </li>
+            <li>
+              <a href="#"
+                ><i class="fa fa-cog" aria-hidden="true"></i
+                >
+                <span class="hidden-xs hidden-sm"> حضور وانصراف</span></a
+              >
+            </li>
+            <li>
+              <a [routerLink]="['/salaryreport']"
+                ><i class="fa fa-cog" aria-hidden="true"></i
+                ><span class="hidden-xs hidden-sm"> رواتب الموظفين</span></a
+              >
+            </li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </div>
+</body>

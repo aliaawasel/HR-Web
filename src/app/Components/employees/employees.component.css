@@ -1,0 +1,11 @@
+.card
+{
+  background-color: #BAD7E9;
+  color: white;
+  font-size: 20px;
+  border: none;
+  border-radius: 20px;
+}
+input,select{
+  border-radius: 20px;
+}
