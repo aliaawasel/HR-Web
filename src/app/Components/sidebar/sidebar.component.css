@@ -9,8 +9,8 @@ ul {
   background: #f6f7fa;
 }
 #navigation {
-  background: #0e1a35;
-  padding: 40px;
+  background: #218838;
+  padding: 48px;
 }
 
 
@@ -29,8 +29,8 @@ ul {
 }
 
 .navi a {
-  border-bottom: 1px solid #0d172e;
-  border-top: 1px solid #0d172e;
+  border-bottom: 1px solid #218838;
+  border-top: 1px solid #218838;
   color: #ffffff;
   display: block;
   font-size: 17px;
@@ -41,18 +41,18 @@ ul {
 
 .navi i {
   margin-right: 15px;
-  color: #5584ff;
+  color: #afd5b7;
 }
 
 .navi .active a {
-  background: #122143;
-  border-left: 5px solid #5584ff;
+  background: #218838;
+  border-left: 5px solid #afd5b7;
   padding-left: 15px;
 }
 
 .navi a:hover {
-  background: #122143 none repeat scroll 0 0;
-  border-left: 5px solid #5584ff;
+  background: #afd5b7 none repeat scroll 0 0;
+  border-left: 5px solid #afd5b7;
   display: block;
   padding-left: 15px;
 }

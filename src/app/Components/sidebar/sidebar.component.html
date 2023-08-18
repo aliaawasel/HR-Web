@@ -14,21 +14,27 @@
         </div>
         <div class="navi">
           <ul>
-            <li>
+            <!-- <li>
               <a [routerLink]="['/groups']"
               [routerLinkActive]="'active'"
                 ><i class="fa fa-home" aria-hidden="true"></i
                 ><span class="hidden-xs hidden-sm">مجموعات</span></a
               >
-            </li>
+            </li> -->
             <li>
               <a [routerLink]="['/users']"
                 ><i class="fa fa-user" aria-hidden="true"></i
                 ><span class="hidden-xs hidden-sm">مستخدمين</span></a
               >
             </li>
+            <!-- <li>
+              <a [routerLink]="['/newUser']"
+                ><i class="fa fa-user" aria-hidden="true"></i
+                ><span class="hidden-xs hidden-sm">اضافه مستخدم</span></a
+              >
+            </li> -->
             <li>
-              <a href="#"
+              <a [routerLink]="['/departments']"
                 ><i class="fa fa-bar-chart" aria-hidden="true"></i
                 ><span class="hidden-xs hidden-sm">  أقسام</span></a
               >
@@ -39,6 +45,12 @@
                 ><span class="hidden-xs hidden-sm"> موظفين</span></a
               >
             </li>
+            <!-- <li>
+              <a [routerLink]="['/newEmployee']"
+                ><i class="fa fa-calendar" aria-hidden="true"></i
+                ><span class="hidden-xs hidden-sm">  اضافه موظف</span></a
+              >
+            </li> -->
             <li>
               <a [routerLink]="['/generalsettings']"
                 ><i class="fa fa-cog" aria-hidden="true"></i
@@ -46,13 +58,13 @@
               >
             </li>
             <li>
-              <a href="#"
+              <a [routerLink]="['/officialVactons']"
                 ><i class="fa fa-calendar" aria-hidden="true"></i
-                ><span class="hidden-xs hidden-sm">  أجازات رسميه</span></a
+                ><span class="hidden-xs hidden-sm"> أجازات رسميه</span></a
               >
             </li>
             <li>
-              <a href="#"
+              <a [routerLink]="['/Attendacse']"
                 ><i class="fa fa-cog" aria-hidden="true"></i
                 >
                 <span class="hidden-xs hidden-sm"> حضور وانصراف</span></a

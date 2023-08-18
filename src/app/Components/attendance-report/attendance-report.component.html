@@ -1,0 +1,446 @@
+<div class="card-body text-right fs-3 px-5 fw-bolder">تقرير حضور وانصراف</div>
+<div class="container" dir="ltr">
+  <div class="row">
+    <div class="col-xl-1">
+      <button class="btn btn-success" (click)="printPage()">
+        طباعه <i class="fa fa-print"></i>
+      </button>
+    </div>
+    <div class="col-xl-2">
+      <button class="custom-upload-button btn btn-success">
+        <input
+          type="file"
+          (change)="onFileSelected($event)"
+          id="upload"
+          hidden
+        />
+        <label for="upload"> رفع ملف <i class="fa fa-upload"></i></label>
+      </button>
+    </div>
+  </div>
+
+  <div class="container py-3">
+    <div class="card p-5" dir="rtl">
+      <div class="x">
+        <button
+          type="button"
+          class="btn btn-success"
+          data-bs-toggle="modal"
+          data-bs-target="#exampleModalForm"
+          data-bs-whatever="@getbootstrap"
+        >
+          اضافه حضور لموظف
+          <i class="fa fa-plus" aria-hidden="true"></i>
+        </button>
+      </div>
+
+      <div
+        class="modal fade"
+        id="exampleModalForm"
+        tabindex="-1"
+        aria-labelledby="exampleModalLabel"
+        aria-hidden="true"
+      >
+        <div class="modal-dialog modal-xl">
+          <div class="modal-content">
+            <div class="modal-header">
+              <h5 class="modal-title" id="exampleModalLabel">
+                تسجيل حضور موظف
+              </h5>
+            </div>
+            <div class="modal-body">
+              <div class="container g-3">
+                <div class="container g-3">
+                  <form class="p-5 g-3" [formGroup]="AttendanceForm">
+                    <div class="row">
+                      <div class="col-xl-6">
+                        <label for="disabledSelect" class="form-label"
+                          >القسم</label
+                        >
+                        <select
+                          (change)="GetEmpsByDept()"
+                          formControlName="DeptName"
+                          class="form-select"
+                        >
+                          <option *ngFor="let D of Departments" [value]="D.id">
+                            {{ D.name }}
+                          </option>
+                        </select>
+                      </div>
+                      <ng-container *ngIf="DeptName.touched">
+                        <div
+                          *ngIf="DeptName.hasError('required')"
+                          class="form-text text-danger"
+                        >
+                          من فضلك اختر القسم
+                        </div>
+                      </ng-container>
+                      <div class="col-xl-6">
+                        <label for="exampleFormControlInput4" class="form-label"
+                          >اسم الموظف</label
+                        >
+                        <div class="input-group mb-3">
+                          <select formControlName="EmpName" class="form-select">
+                            <option *ngFor="let E of Emps" [value]="E.id">
+                              {{ E.name }}
+                            </option>
+                          </select>
+                        </div>
+                        <ng-container *ngIf="EmpName.touched">
+                          <div
+                            *ngIf="EmpName.hasError('required')"
+                            class="form-text text-danger"
+                          >
+                            من فضلك اختر اسم الموظف
+                          </div>
+                        </ng-container>
+                      </div>
+                    </div>
+
+                    <div class="row">
+                      <div class="col-xl-6">
+                        <label
+                          for="exampleFormControlInput3"
+                          class="form-label"
+                        >
+                          موعد الحضور</label
+                        >
+                        <input
+                          type="time"
+                          id="my-time-input"
+                          name="myTime"
+                          formControlName="CheckinTime"
+                          class="form-control"
+                        />
+                        <ng-container *ngIf="CheckinTime.touched">
+                          <div
+                            *ngIf="CheckinTime.hasError('required')"
+                            class="form-text text-danger"
+                          >
+                            من فضلك اختر وقت الحضور
+                          </div>
+                        </ng-container>
+                      </div>
+                      <div class="col-xl-6">
+                        <label
+                          for="exampleFormControlInput3"
+                          class="form-label"
+                        >
+                          موعد الانصراف</label
+                        >
+                        <input
+                          type="time"
+                          id="my-time-input"
+                          name="myTime"
+                          formControlName="CheckoutTime"
+                          class="form-control"
+                        />
+                        <ng-container *ngIf="CheckoutTime.touched">
+                          <div
+                            *ngIf="CheckoutTime.hasError('required')"
+                            class="form-text text-danger"
+                          >
+                            من فضلك اختر وقت الانصراف
+                          </div>
+                        </ng-container>
+                      </div>
+                    </div>
+                    <div class="row">
+                      <div class="col-xl-6">
+                        <label
+                          for="exampleFormControlInput3"
+                          class="form-label"
+                        >
+                          التاريخ</label
+                        >
+                        >
+                        <input
+                          type="date"
+                          id="my-time-input"
+                          name="myTime"
+                          formControlName="Date"
+                          class="form-control"
+                        />
+                        <ng-container *ngIf="Date.touched">
+                          <div
+                            *ngIf="Date.hasError('required')"
+                            class="form-text text-danger"
+                          >
+                            من فضلك اختر التاريخ
+                          </div>
+                        </ng-container>
+                      </div>
+                    </div>
+                  </form>
+                </div>
+              </div>
+            </div>
+            <div class="modal-footer">
+              <button
+                type="button"
+                class="btn btn-primary"
+                data-bs-dismiss="modal"
+                aria-label="Close"
+                (click)="back()"
+              >
+                تراجع
+              </button>
+              <button
+                *ngIf="!isEdited"
+                [disabled]="!AttendanceForm.valid"
+                class="btn btn-primary"
+                data-bs-target="#exampleModalAdded"
+                data-bs-toggle="modal"
+                data-bs-dismiss="modal"
+                (click)="AddAttendance()"
+              >
+                اضافه
+              </button>
+              <button
+                [disabled]="!AttendanceForm.valid"
+                *ngIf="isEdited"
+                class="btn btn-primary"
+                data-bs-target="#exampleModalEdite"
+                data-bs-toggle="modal"
+                data-bs-dismiss="modal"
+              >
+                حفظ التعديل
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <form [formGroup]="FilterForm">
+        <div class="form-outline">
+          <div class="row">
+            <div class="col-xl-4">
+              <label for="exampleFormControlInput3" class="form-label">
+                من</label
+              >
+              <input
+                formControlName="DateFrom"
+                #datefrom
+                type="date"
+                id="my-time-input"
+                name="myTime"
+                class="form-control"
+              />
+            </div>
+            <div class="col-xl-4">
+              <label for="exampleFormControlInput3" class="form-label">
+                الى</label
+              >
+              <input
+                formControlName="DateTo"
+                #dateto
+                type="date"
+                id="my-time-input"
+                name="myTime"
+                class="form-control"
+              />
+            </div>
+            <div class="col-xl-4 py-4">
+              <button
+                (click)="GetByDate(datefrom.value, dateto.value)"
+                type="submit"
+                class="btn btn-success"
+              >
+                عرض
+              </button>
+            </div>
+            <div class="row">
+              <div class="col-xl-11">
+                <input
+                  (change)="GetByName(filter.value)"
+                  formControlName="searchName"
+                  id="search-input"
+                  type="search"
+                  class="form-control"
+                  #filter
+                  placeholder="بحث بالاسم "
+                />
+              </div>
+              <div class="col-xl-1">
+                <button
+                  (click)="GetByName(filter.value)"
+                  id="search-button"
+                  type="button"
+                  class="btn btn-success"
+                >
+                  <i class="fa fa-search"></i>
+                </button>
+              </div>
+              <div *ngIf="!searchValidation" class="form-text text-danger">
+                من فضلك ادخل بيانات صحيحه
+              </div>
+            </div>
+          </div>
+        </div>
+      </form>
+      <div class="tableStyle">
+        <section id="prinatabletable">
+            <div class="table-responsive">
+              <table class="table table-hover">
+                <thead class="table-light">
+                  <tr>
+                    <th scope="col">م</th>
+                    <th scope="col">القسم</th>
+                    <th scope="col">اسم الموظف</th>
+                    <th scope="col">وقت الحضور</th>
+                    <th scope="col">وقت الانصراف</th>
+                    <th scope="col">التاريخ</th>
+                    <th scope="col">حذف</th>
+                    <th scope="col">تعديل</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr *ngFor="let a of Attendances | paginate  : {
+                    itemsPerPage: tableSize,
+                    currentPage: page,
+                    totalItems: count
+                  };; let i = index">
+                    <td>{{ i + 1 }}</td>
+                    <td>{{ a.departmentName }}</td>
+                    <td>{{ a.employeeName }}</td>
+                    <td>{{ a.checkIn }}</td>
+                    <td>{{ a.checkOut }}</td>
+                    <td>{{ a.date | date : "dd/MM/YYYY" }}</td>
+                    <td>
+                      <button
+                        type="button"
+                        class="btn btn-danger"
+                        data-bs-toggle="modal"
+                        data-bs-target="#exampleModal"
+                      >
+                        <i class="fa fa-trash" aria-hidden="true"></i>
+                      </button>
+
+                      <!-- ModalDelete -->
+                      <div
+                        class="modal fade"
+                        id="exampleModal"
+                        tabindex="-1"
+                        aria-labelledby="exampleModalLabel"
+                        aria-hidden="true"
+                      >
+                        <div class="modal-dialog modal-dialog-centered">
+                          <div class="modal-content">
+                            <div class="modal-body">
+                              أنت على وشك حذف هذا الموظف هل انت متأكد؟
+                            </div>
+                            <div class="modal-footer">
+                              <button
+                                type="button"
+                                class="btn btn-primary"
+                                data-bs-dismiss="modal"
+                                (click)="back()"
+                              >
+                                تراجع
+                              </button>
+                              <button
+                                type="button"
+                                (click)="DeleteAttendance(a.id)"
+                                class="btn btn-danger"
+                                data-bs-dismiss="modal"
+                              >
+                                حذف
+                              </button>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                    </td>
+                    <td>
+                      <button
+                        (click)="Edit(a.id)"
+                        type="button"
+                        class="btn btn-outline-warning"
+                        data-bs-toggle="modal"
+                        data-bs-target="#exampleModalForm"
+                        data-bs-whatever="@getbootstrap"
+                      >
+                        <i class="fa fa-pencil-square"></i>
+                      </button>
+                    </td>
+                  </tr>
+                </tbody>
+              </table>
+              <div class="d-flex justify-content-center">
+                <pagination-controls
+                  previousLabel="Prev"
+                  nextLabel="Next"
+                  (pageChange)="onTableDataChange($event)"
+                  class="custom-pagination-controls"
+                >
+                </pagination-controls>
+              </div>
+            </div>
+
+          <!--Modaaaals-->
+          <div
+            class="modal fade"
+            id="exampleModalAdded"
+            tabindex="-1"
+            aria-labelledby="exampleModalLabel"
+            aria-hidden="true"
+          >
+            <div class="modal-dialog modal-dialog-centered">
+              <div class="modal-content">
+                <div class="modal-body" *ngIf="!AddedBefore">
+                  تم حفظ بيانات الحضور بنجاح
+                </div>
+                <div class="modal-body text-danger" *ngIf="AddedBefore">
+                  تم اضافه الحضور لهذا الموظف من قبل
+                </div>
+
+                <div class="modal-footer">
+                  <button
+                    type="button"
+                    class="btn btn-primary"
+                    data-bs-dismiss="modal"
+                  >
+                    تم
+                  </button>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div
+            class="modal fade"
+            id="exampleModalEdite"
+            aria-hidden="true"
+            aria-labelledby="exampleModalEdite"
+            tabindex="-1"
+          >
+            <div class="modal-dialog modal-dialog-centered">
+              <div class="modal-content">
+                <div class="modal-header"></div>
+                <div class="modal-body">
+                  انت على وشك تغيير بيانات الموظف هل انت متأكد؟
+                </div>
+                <div class="modal-footer">
+                  <button
+                    class="btn btn-primary"
+                    data-bs-dismiss="modal"
+                    (click)="SaveEdite()"
+                  >
+                    نعم
+                  </button>
+                  <button
+                    class="btn btn-primary"
+                    data-dismiss="modal"
+                    (click)="back()"
+                  >
+                    تراجع
+                  </button>
+                </div>
+              </div>
+            </div>
+          </div>
+        </section>
+      </div>
+    </div>
+  </div>
+</div>

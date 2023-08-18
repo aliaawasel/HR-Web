@@ -1,0 +1,18 @@
+.tableStyle{
+  padding: 20px;
+}
+.card{
+  box-shadow: 2px 2px 2px 2px rgb(169, 168, 168);
+  background-color: rgb(247, 251, 247);
+}
+button{
+  border-radius: 10px;
+  padding: 10px;
+}
+input,select{
+  border-radius: 20px;
+  padding: 10px;
+}
+.table-responsive {
+  max-height:400px;
+}

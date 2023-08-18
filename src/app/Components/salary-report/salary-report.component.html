@@ -1,1 +1,125 @@
-<p>salary-report works!</p>
+<div class="card-body text-right fs-3 px-5 fw-bolder">تقرير المرتب شهريا</div>
+<div class="container py-3">
+  <div class="card p-5">
+    <div class="x">
+      <form [formGroup]="SalaryForm">
+        <div class="row">
+          <div class="col-xl-2">
+            <label for="exampleFormControlInput4" class="form-label">
+              الشهر</label
+            >
+            <div class="input-group mb-3">
+              <select
+                formControlName="Month"
+                class="form-select"
+                id="inputGroupSelect01"
+              >
+                <option value="1">يناير</option>
+                <option value="2">فبراير</option>
+                <option value="3">مارس</option>
+                <option value="4">ابريل</option>
+                <option value="5">مايو</option>
+                <option value="6">يونيو</option>
+                <option value="7">يوليو</option>
+                <option value="8">أغسطس</option>
+                <option value="9">سبتمبر</option>
+                <option value="10">أكتوبر</option>
+                <option value="11">نوفمبر</option>
+                <option value="12">ديسمبر</option>
+              </select>
+              <!-- <ng-container *ngIf="Vocation2.touched">
+        <div
+          *ngIf="AddHour.hasError('required')"
+          class="form-text text-danger"
+        >
+          هذا الحقل مطلوب
+        </div>
+      </ng-container> -->
+            </div>
+          </div>
+          <div class="col-xl-2">
+            <label for="exampleFormControlInput4" class="form-label">
+              السنه</label
+            >
+            <div class="input-group mb-3">
+              <select
+                formControlName="Year"
+                class="form-select"
+                id="inputGroupSelect01"
+              >
+                <option *ngFor="let year of years" [value]="year">
+                  {{ year }}
+                </option>
+              </select>
+              <!-- <ng-container *ngIf="Vocation2.touched">
+            <div
+              *ngIf="AddHour.hasError('required')"
+              class="form-text text-danger"
+            >
+              هذا الحقل مطلوب
+            </div>
+          </ng-container> -->
+            </div>
+          </div>
+          <div class="col-xl-2 py-4">
+            <button (click)="View()" type="button" class="btn btn-success">
+              عرض
+            </button>
+          </div>
+        </div>
+
+      </form>
+      <input type="text" [(ngModel)]="search" placeholder="بحث بالاسم">
+
+      <div class="tableStyle">
+        <div class="table-wrapper-scroll-y my-custom-scrollbar">
+          <div class="table-responsive">
+            <table class="table table-hover">
+              <thead class="table-light text-center">
+                <tr>
+                  <th scope="col">م</th>
+                  <th scope="col">القسم</th>
+                  <th scope="col">اسم الموظف</th>
+                  <th scope="col">الراتب الاساسي</th>
+                  <th scope="col">عدد ايام الحضور</th>
+                  <th scope="col">عدد ايام الغياب</th>
+                  <th scope="col">الاضافي بالساعات</th>
+                  <th scope="col">الخصم بالساعات</th>
+                  <th scope="col">اجمالي الاضافي</th>
+                  <th scope="col">اجمالي الخصم</th>
+                  <th>صافي المرتب</th>
+                  <th>طباعه</th>
+                </tr>
+              </thead>
+              <tbody class="text-center">
+                <tr
+                  *ngFor="
+                    let s of Salaries | filter:search;
+                    let i = index
+                  "
+                >
+                  <td>{{ i + 1 }}</td>
+                  <td>{{ s.departmentName }}</td>
+                  <td>{{ s.employeeName }}</td>
+                  <td>{{ s.netSalary }}</td>
+                  <td>{{ s.attendanceDays }}</td>
+                  <td>{{ s.absenceDays }}</td>
+                  <td>{{ s.adds }}</td>
+                  <td>{{ s.subs }}</td>
+                  <td>{{ s.totalAdds }}</td>
+                  <td>{{ s.totalSubs }}</td>
+                  <td>{{ s.actualSalary }}</td>
+                  <td>
+                    <button class="btn btn-outline-success" (click)="printRow(s)">
+                       <i class="fa fa-print"></i>
+                    </button>
+                  </td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

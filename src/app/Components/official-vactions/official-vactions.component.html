@@ -1,1 +1,250 @@
-<p>official-vactions works!</p>
+<div class="card-body text-right fs-3 px-5 fw-bolder">أجازات رسميه سنويه</div>
+<div class="container py-3">
+  <div class="card p-5">
+    <div class="x">
+      <button
+        type="button"
+        class="btn btn-success"
+        data-bs-toggle="modal"
+        data-bs-target="#exampleModalForm"
+        data-bs-whatever="@getbootstrap"
+        (click)="back()"
+      >
+        اضافه اجازه سنويه
+      </button>
+      <!--Form Modal-->
+
+      <div
+        class="modal fade"
+        id="exampleModalForm"
+        tabindex="-1"
+        aria-labelledby="exampleModalLabel"
+        aria-hidden="true"
+      >
+        <div class="modal-dialog modal-xl">
+          <div class="modal-content">
+            <div class="modal-header">
+              <h5 class="modal-title" id="exampleModalLabel">
+                اضافه أجازه سنويه
+              </h5>
+              <button
+                class="btn btn-outline-danger"
+                data-bs-dismiss="modal"
+                aria-label="Close"
+              >
+                x
+              </button>
+            </div>
+            <div class="modal-body">
+              <div class="container g-3">
+                <form [formGroup]="vocationForm">
+                  <div class="row">
+                    <div class="col-xl-6">
+                      <label for="exampleFormControlInput4" class="form-label"
+                        >اسم الاجازه</label
+                      >
+                      <input
+                        formControlName="vocationName"
+                        type="text"
+                        class="form-control"
+                        aria-label="vocationName"
+                      />
+                      <ng-container *ngIf="vocationName.touched">
+                        <div
+                          *ngIf="vocationName.hasError('required')"
+                          id="Username"
+                          class="form-text text-danger"
+                        >
+                          من فضلك ادخل اسم الاجازه
+                        </div>
+                      </ng-container>
+                    </div>
+                  </div>
+                  <div class="row">
+                    <div class="col-xl-6">
+                      <label for="exampleFormControlInput1" class="form-label">
+                        التاريخ</label
+                      >
+                      <input
+                        formControlName="vocationDate"
+                        type="date"
+                        id="example"
+                        class="form-control"
+                        aria-label="vocationDate"
+                      />
+                      <ng-container *ngIf="vocationDate.touched">
+                        <div
+                          *ngIf="vocationDate.hasError('required')"
+                          id="Username"
+                          class="form-text text-danger"
+                        >
+                          من فضلك ادخل تاريخ الاجازه
+                        </div>
+                      </ng-container>
+                    </div>
+                  </div>
+                </form>
+              </div>
+            </div>
+            <div class="modal-footer">
+              <button
+                *ngIf="!isEdited"
+                [disabled]="!vocationForm.valid"
+                class="btn btn-success"
+                data-bs-target="#exampleModalAdded"
+                data-bs-toggle="modal"
+                data-bs-dismiss="modal"
+                (click)="AddVocation()"
+              >
+                اضافه
+              </button>
+              <button
+                [disabled]="!vocationForm.valid"
+                *ngIf="isEdited"
+                class="btn btn-warning"
+                data-bs-target="#exampleModalEdite"
+                data-bs-toggle="modal"
+                data-bs-dismiss="modal"
+              >
+                حفظ التعديل
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
+      <!-- Modal Save -->
+      <div
+        class="modal fade"
+        id="exampleModalAdded"
+        aria-hidden="true"
+        aria-labelledby="exampleModalToggleLabel2"
+        tabindex="-1"
+      >
+        <div class="modal-dialog modal-dialog-centered">
+          <div class="modal-content">
+            <div class="modal-header"></div>
+            <div class="modal-body" *ngIf="!AddedBefore" >تم الحفظ بنجاح</div>
+            <div class="modal-body text-danger" *ngIf="AddedBefore">
+              تم اضافه هذه الاجازه من قبل
+            </div>
+            <div class="modal-footer">
+              <button
+                class="btn btn-outline-success"
+                data-bs-dismiss="modal"
+              >
+                تم
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!--Modal Edite-->
+      <div
+        class="modal fade"
+        id="exampleModalEdite"
+        aria-hidden="true"
+        aria-labelledby="exampleModalEdite"
+        tabindex="-1"
+      >
+        <div class="modal-dialog modal-dialog-centered">
+          <div class="modal-content">
+            <div class="modal-header"></div>
+            <div class="modal-body">
+              انت على وشك تغيير بيانات الموظف هل انت متأكد؟
+            </div>
+            <div class="modal-footer">
+              <button class="btn btn-outline-danger" data-bs-dismiss="modal" (click)="SaveEdite()">
+                نعم
+              </button>
+              <button
+                class="btn btn-primary"
+                data-bs-dismiss="modal"
+              >
+                تراجع
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="table-responsive">
+        <table class="table table-striped table-hover">
+          <thead>
+            <tr>
+              <th scope="col">م</th>
+              <th scope="col">الاجازه</th>
+              <th scope="col">التاريخ</th>
+              <th>حذف</th>
+              <th>تعديل</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr *ngFor="let vocation of Vocations; let i = index">
+              <td>{{ i + 1 }}</td>
+              <td>{{ vocation.name }}</td>
+              <td>{{ vocation.date | date : "dd/MM/YYYY"  }}</td>
+              <td>
+                <button
+                type="button"
+                class="btn btn-outline-danger"
+                data-bs-toggle="modal"
+                data-bs-target="#exampleModalDelete"
+                (click)="SelectID(vocation.id)"
+              >
+                <i class="fa fa-trash" aria-hidden="true"></i>
+              </button>
+
+                <!-- Modal -->
+                <div
+                  class="modal fade"
+                  id="exampleModalDelete"
+                  tabindex="-1"
+                  aria-labelledby="exampleModalLabel"
+                  aria-hidden="true"
+                >
+                  <div class="modal-dialog modal-dialog-centered">
+                    <div class="modal-content">
+                      <div class="modal-body">
+                        أنت على وشك حذف هذا الموظف هل انت متأكد؟
+                      </div>
+                      <div class="modal-footer">
+                        <button
+                          type="button"
+                          class="btn btn-primary"
+                          data-bs-dismiss="modal"
+                        >
+                          تراجع
+                        </button>
+                        <button
+                          type="button"
+                          (click)="DeleteVocation()"
+                          class="btn btn-danger"
+                          data-bs-dismiss="modal"
+                        >
+                          حذف
+                        </button>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </td>
+              <td>
+                <button
+                  type="button"
+                  class="btn btn-outline-warning"
+                  data-bs-toggle="modal"
+                  data-bs-target="#exampleModalForm"
+                  data-bs-whatever="@getbootstrap"
+                  (click)="EditeVocation(vocation.id)"
+                >
+                  <i class="fa fa-pencil-square"></i>
+                </button>
+              </td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+</div>

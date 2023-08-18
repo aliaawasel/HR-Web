@@ -1,0 +1,199 @@
+<div class="container g-3">
+  <div class="card">
+    <div class="card-body text-center">بيانات الموظف</div>
+  </div>
+  <form class="p-5 g-3" [formGroup]="EmployeeForm">
+    <div class="row">
+      <div class="col-xl-6">
+        <label for="exampleFormControlInput1" class="form-label"
+          >اسم الموظف</label
+        >
+        <input
+          formControlName="EmpName"
+          type="text"
+          class="form-control"
+          aria-label="First name"
+        />
+      </div>
+      <div class="col-xl-6">
+        <label for="exampleFormControlInput2" class="form-label">
+          العنوان</label
+        >
+        <input
+          formControlName="Address"
+          type="text"
+          class="form-control"
+          aria-label="address"
+        />
+      </div>
+    </div>
+
+    <div class="row">
+      <div class="col-xl-6">
+        <label for="exampleFormControlInput3" class="form-label">
+          رقم تليفون</label
+        >
+        <input
+          formControlName="Phone"
+          type="text"
+          class="form-control"
+          aria-label="phone"
+        />
+      </div>
+      <div class="col-xl-6">
+        <label for="exampleFormControlInput4" class="form-label">النوع</label>
+        <div class="input-group mb-3">
+          <select
+            formControlName="Gender"
+            class="form-select"
+            id="inputGroupSelect01"
+            aria-label="Gender"
+          >
+            <option selected>Choose...</option>
+            <option value="أنثى">أنثى</option>
+            <option value="ذكر">ذكر</option>
+          </select>
+        </div>
+      </div>
+    </div>
+    <div class="row">
+      <div class="col-xl-6">
+        <label for="exampleFormControlInput1" class="form-label">
+          تاريخ الميلاد</label
+        >
+        <input
+          formControlName="Birthdate"
+          type="date"
+          id="example"
+          class="form-control"
+          aria-label="Birthdate"
+        />
+      </div>
+      <div class="col-xl-6">
+        <label for="exampleFormControlInput4" class="form-label">القسم</label>
+        <div class="input-group mb-3">
+          <select
+            formControlName="Department"
+            class="form-select"
+            id="inputGroupSelect01"
+          >
+            <option *ngFor="let D of Departments" [value]="D.id">
+              {{ D.name }}
+            </option>
+          </select>
+        </div>
+      </div>
+    </div>
+    <div class="row">
+      <div class="col-xl-6">
+        <label for="exampleFormControlInput4" class="form-label">
+          الرقم القومي</label
+        >
+        <input
+          formControlName="NationalId"
+          type="text"
+          class="form-control"
+          aria-label="NationalID"
+        />
+      </div>
+      <div class="col-xl-6">
+        <label for="exampleFormControlInput5" class="form-label">
+          الجنسيه</label
+        >
+        <input
+          formControlName="Nationality"
+          type="text"
+          class="form-control"
+          aria-label="nationality"
+        />
+      </div>
+    </div>
+  </form>
+  <div class="card">
+    <div class="card-body text-center">بيانات العمل</div>
+  </div>
+  <form [formGroup]="EmployeeForm">
+    <div class="row">
+      <div class="col-xl-6">
+        <label for="exampleFormControlInput1" class="form-label">
+          تاريخ التعاقد</label
+        >
+        <input
+          formControlName="HireDate"
+          type="date"
+          id="example"
+          class="form-control"
+        />
+      </div>
+      <div class="col-xl-6">
+        <label for="exampleFormControlInput2" class="form-label"> الراتب</label>
+        <input
+          formControlName="Salary"
+          type="text"
+          class="form-control"
+          aria-label="address"
+        />
+      </div>
+    </div>
+    <div class="row">
+      <div class="col-xl-6">
+        <label for="exampleFormControlInput3" class="form-label">
+          موعد الحضور</label
+        >
+        <input
+          formControlName="CheckinTime"
+          type="time"
+          id="my-time-input"
+          name="myTime"
+          class="form-control"
+        />
+      </div>
+      <div class="col-xl-6">
+        <label for="exampleFormControlInput3" class="form-label">
+          موعد الانصراف</label
+        >
+        <input
+          formControlName="CheckoutTime"
+          type="time"
+          id="my-time-input"
+          name="myTime"
+          class="form-control"
+        />
+      </div>
+    </div>
+    <!-- Button trigger modal -->
+    <button
+      (click)="AddEmployee()"
+      type="button"
+      class="btn btn-primary"
+      data-bs-toggle="modal"
+      data-bs-target="#exampleModal"
+    >
+      اضافه
+    </button>
+
+    <!-- Modal -->
+    <div
+      class="modal fade"
+      id="exampleModal"
+      tabindex="-1"
+      aria-labelledby="exampleModalLabel"
+      aria-hidden="true"
+    >
+      <div class="modal-dialog">
+        <div class="modal-content">
+          <div class="modal-body">تم الحفظ بنجاح</div>
+          <div class="modal-footer">
+            <button
+              type="button"
+              class="btn btn-secondary"
+              data-bs-dismiss="modal"
+            >
+              الغاء
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </form>
+</div>

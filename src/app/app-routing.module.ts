@@ -6,6 +6,11 @@ import { EmployeesComponent } from './Components/employees/employees.component';
 import { UsersComponent } from './Components/users/users.component';
 import { GroupsComponent } from './Components/groups/groups.component';
 import { GeneralSettingsComponent } from './Components/general-settings/general-settings.component';
+import { DepartmentComponent } from './Components/department/department.component';
+import { NewEmployeeComponent } from './Components/new-employee/new-employee.component';
+import { NewUserComponent } from './Components/new-user/new-user.component';
+import { AttendanceReportComponent } from './Components/attendance-report/attendance-report.component';
+
 
 const routes: Routes = [
   {path:'employees',component:EmployeesComponent},
@@ -14,6 +19,10 @@ const routes: Routes = [
   {path:'generalsettings',component:GeneralSettingsComponent},
   {path:'officialVactons',component:OfficialVactionsComponent},
   {path:'salaryreport',component:SalaryReportComponent},
+  {path:'departments',component:DepartmentComponent},
+  {path:'newEmployee',component:NewEmployeeComponent},
+  {path:'newUser',component:NewUserComponent},
+  {path:"Attendacse",component:AttendanceReportComponent}
 ];
 
 @NgModule({

@@ -1,1 +1,154 @@
-<p>general-settings works!</p>
+<div class="card-body text-right fs-3 px-5 fw-bolder">اعدادات عامه</div>
+
+<div class="container py-3">
+  <div class="card p-5">
+
+  <div class="col-xl-6">
+    <form [formGroup]="SettingForm" (submit)="formHandler($event)"
+    >
+      <div class="row">
+        <div class="col">
+          <label for="exampleFormControlInput4" class="form-label"
+            >الاضافه</label
+          >
+          <input
+            [readonly]="this.allowEdite"
+            formControlName="AddHour"
+            type="text"
+            class="form-control"
+          />
+          <ng-container *ngIf="AddHour.touched">
+            <div
+              *ngIf="AddHour.hasError('required')"
+              class="form-text text-danger"
+            >
+              هذا الحقل مطلوب
+            </div>
+          </ng-container>
+        </div>
+        <div class="col">
+          <label for="exampleFormControlInput4" class="form-label">
+            الخصم</label
+          >
+          <input
+            [readonly]="this.allowEdite"
+            formControlName="SubHour"
+            type="text"
+            class="form-control"
+          />
+          <ng-container *ngIf="SubHour.touched">
+            <div
+              *ngIf="AddHour.hasError('required')"
+              class="form-text text-danger"
+            >
+              هذا الحقل مطلوب
+            </div>
+          </ng-container>
+        </div>
+      </div>
+
+      <div class="row">
+        <div class="col">
+          <label for="exampleFormControlInput4" class="form-label"
+            >يوم الاجازه الرسمي 1</label
+          >
+          <div class="input-group mb-3">
+            <select
+              formControlName="Vocation1"
+              class="form-select"
+              id="inputGroupSelect01"
+            >
+              <option value="Saturday">السبت</option>
+              <option value="Sunday">الاحد</option>
+              <option value="Monday">الاثنين</option>
+              <option value="Tuesday">الثلاثاء</option>
+              <option value="Wednesday">الاربعاء</option>
+              <option value="Thursday">الخميس</option>
+              <option value="Friday">الجمعه</option>
+            </select>
+            <ng-container *ngIf="Vocation1.touched">
+              <div
+                *ngIf="AddHour.hasError('required')"
+                class="form-text text-danger"
+              >
+                هذا الحقل مطلوب
+              </div>
+            </ng-container>
+          </div>
+          <div class="col">
+            <label for="exampleFormControlInput4" class="form-label"
+              >يوم الاجازه الرسمي 2</label
+            >
+            <div class="input-group mb-3">
+              <select
+                formControlName="Vocation2"
+                class="form-select"
+                id="inputGroupSelect01"
+              >
+              <option value="Saturday">السبت</option>
+              <option value="Sunday">الاحد</option>
+              <option value="Monday">الاثنين</option>
+              <option value="Tuesday">الثلاثاء</option>
+              <option value="Wednesday">الاربعاء</option>
+              <option value="Thursday">الخميس</option>
+              <option value="Friday">الجمعه</option>
+              </select>
+              <ng-container *ngIf="Vocation2.touched">
+                <div
+                  *ngIf="AddHour.hasError('required')"
+                  class="form-text text-danger"
+                >
+                  هذا الحقل مطلوب
+                </div>
+              </ng-container>
+            </div>
+          </div>
+        </div>
+      </div>
+      <button (click)="openEdite()" *ngIf="allowEdite" type="button" class="btn btn-success" >اتاحه التعديل <i class="fa fa-pencil-square" aria-hidden="true"></i>
+      </button>
+      <button
+        type="button"
+        class="btn btn-danger"
+        data-bs-toggle="modal"
+        data-bs-target="#exampleModalEdite"
+        data-bs-whatever="@getbootstrap"
+        *ngIf="!allowEdite"
+        [disabled]="!SettingForm.valid"
+      >
+      حفظ التعديل
+      </button>
+    </form>
+    <div
+    class="modal fade"
+    id="exampleModalEdite"
+    aria-hidden="true"
+    aria-labelledby="exampleModalEdite"
+    tabindex="-1"
+  >
+    <div class="modal-dialog modal-dialog-centered">
+      <div class="modal-content">
+        <div class="modal-header"></div>
+        <div class="modal-body">
+          انت على وشك تغيير بيانات الاعدادات العامه هل انت متأكد؟
+        </div>
+        <div class="modal-footer">
+          <button
+            class="btn btn-outline-danger"
+            data-bs-dismiss="modal"
+            (click)="saveUpdate()"
+          >
+            نعم
+          </button>
+          <button
+            class="btn btn-primary"
+            data-bs-dismiss="modal"
+          >
+            تراجع
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+    </div>
+  </div>

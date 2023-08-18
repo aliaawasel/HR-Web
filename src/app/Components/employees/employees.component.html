@@ -1,78 +1,537 @@
-<div class="container">
-  <div class="card">
-    <div class="card-body text-center">
-      بيانات الموظف
+<div class="card-body text-right fs-3 px-5 fw-bolder">بيانات الموظفين</div>
+
+<div class="container py-3">
+  <div class="card p-5">
+    <div class="x">
+      <button
+        type="button"
+        class="btn btn-success"
+        data-bs-toggle="modal"
+        data-bs-target="#exampleModalForm"
+        data-bs-whatever="@getbootstrap"
+        (click)="back()"
+      >
+        اضافه موظف جديد
+        <i class="fa fa-plus" aria-hidden="true"></i>
+      </button>
+    </div>
+<!--Form Modal-->
+    <div
+      class="modal fade"
+      id="exampleModalForm"
+      tabindex="-1"
+      aria-labelledby="exampleModalLabel"
+      aria-hidden="true"
+    >
+      <div class="modal-dialog modal-xl">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h5 class="modal-title" id="exampleModalLabel">اضافه موظف جديد</h5>
+            <button
+            class="btn btn-outline-danger"
+              data-bs-dismiss="modal"
+              aria-label="Close"
+            >
+            x
+            </button>
+          </div>
+          <div class="modal-body">
+            <div class="container g-3">
+              <div class="card">
+                <div class="card-body text-center">بيانات الموظف</div>
+              </div>
+              <form
+                class="p-5 g-3"
+                (submit)="formHandler($event)"
+                [formGroup]="EmployeeForm"
+              >
+                <div class="row">
+                  <div class="col-xl-6">
+                    <label for="exampleFormControlInput1" class="form-label"
+                      >اسم الموظف</label
+                    >
+                    <input
+                      formControlName="EmpName"
+                      type="text"
+                      class="form-control"
+                      aria-label="First name"
+                    />
+                    <ng-container *ngIf="EmpName.touched">
+                      <div
+                        *ngIf="EmpName.hasError('required')"
+                        class="form-text text-danger"
+                      >
+                        من فضلك ادخل اسم الموظف
+                      </div>
+                      <div
+                        *ngIf="EmpName.hasError('minLength')"
+                        class="form-text text-danger"
+                      >
+                        لا يقل الاسم عن حرفين
+                      </div>
+                    </ng-container>
+                  </div>
+                  <div class="col-xl-6">
+                    <label for="exampleFormControlInput2" class="form-label">
+                      العنوان</label
+                    >
+                    <input
+                      formControlName="Address"
+                      type="text"
+                      class="form-control"
+                      aria-label="address"
+                    />
+                    <ng-container *ngIf="Address.touched">
+                      <div
+                        *ngIf="Address.hasError('required')"
+                        class="form-text text-danger"
+                      >
+                        من فضلك ادخل العنوان
+                      </div>
+                    </ng-container>
+                  </div>
+                </div>
+
+                <div class="row">
+                  <div class="col-xl-6">
+                    <label for="exampleFormControlInput3" class="form-label">
+                      رقم تليفون</label
+                    >
+                    <input
+                      formControlName="Phone"
+                      type="text"
+                      class="form-control"
+                      aria-label="phone"
+                    />
+                    <ng-container *ngIf="Phone.touched">
+                      <div
+                        *ngIf="Phone.hasError('required')"
+                        class="form-text text-danger"
+                      >
+                        من فضلك ادخل رقم التليفون
+                      </div>
+                      <div
+                        *ngIf="Phone.hasError('pattern')"
+                        class="form-text text-danger"
+                      >
+                        من فضلك ادخل رقم تليفون صالح
+                      </div>
+                    </ng-container>
+                  </div>
+                  <div class="col-xl-6">
+                    <label for="exampleFormControlInput4" class="form-label"
+                      >النوع</label
+                    >
+                    <div class="input-group mb-3">
+                      <select
+                        formControlName="Gender"
+                        class="form-select"
+                        id="inputGroupSelect01"
+                        aria-label="Gender"
+                      >
+                        <option value="أنثى">أنثى</option>
+                        <option value="ذكر">ذكر</option>
+                      </select>
+                    </div>
+                    <ng-container *ngIf="Gender.touched">
+                      <div
+                        *ngIf="Gender.hasError('required')"
+                        class="form-text text-danger"
+                      >
+                        من فضلك اختر النوع
+                      </div>
+                    </ng-container>
+                  </div>
+                </div>
+                <div class="row">
+                  <div class="col-xl-6">
+                    <label for="exampleFormControlInput1" class="form-label">
+                      تاريخ الميلاد</label
+                    >
+                    <input
+                      formControlName="Birthdate"
+                      type="date"
+                      id="example"
+                      class="form-control"
+                      aria-label="Birthdate"
+                    />
+                    <ng-container *ngIf="Birthdate.touched">
+                      <div
+                        *ngIf="Birthdate.hasError('required')"
+                        class="form-text text-danger"
+                      >
+                        من فضلك اختر تاريخ الميلاد
+                      </div>
+                      <div
+                        *ngIf="Birthdate.hasError('ageInvalid')"
+                        class="form-text text-danger"
+                      >
+                        لا يقل السن عن 20
+                      </div>
+                    </ng-container>
+                  </div>
+                  <div class="col-xl-6">
+                    <label for="exampleFormControlInput4" class="form-label"
+                      >القسم</label
+                    >
+                    <div class="input-group mb-3">
+                      <select
+                        formControlName="Department"
+                        class="form-select"
+                        id="disabledSelect"
+                      >
+                        <option *ngFor="let D of Departments" [value]="D.id">
+                          {{ D.name }}
+                        </option>
+                      </select>
+                    </div>
+                    <ng-container *ngIf="Department.touched">
+                      <div
+                        *ngIf="Department.hasError('required')"
+                        class="form-text text-danger"
+                      >
+                        من فضلك اختر القسم
+                      </div>
+                    </ng-container>
+                  </div>
+                </div>
+                <div class="row">
+                  <div class="col-xl-6">
+                    <label for="exampleFormControlInput4" class="form-label">
+                      الرقم القومي</label
+                    >
+                    <input
+                      formControlName="NationalId"
+                      type="text"
+                      class="form-control"
+                      aria-label="NationalID"
+                    />
+                    <ng-container *ngIf="NationalId.touched">
+                      <div
+                        *ngIf="NationalId.hasError('required')"
+                        class="form-text text-danger"
+                      >
+                        من فضلك ادخل رقم قومي
+                      </div>
+                      <div
+                        *ngIf="NationalId.hasError('pattern')"
+                        class="form-text text-danger"
+                      >
+                        من فضلك ادخل رقم قومي صحيح
+                      </div>
+                    </ng-container>
+                  </div>
+                  <div class="col-xl-6">
+                    <label for="exampleFormControlInput5" class="form-label">
+                      الجنسيه</label
+                    >
+                    <input
+                      formControlName="Nationality"
+                      type="text"
+                      class="form-control"
+                      aria-label="nationality"
+                    />
+                    <ng-container *ngIf="Nationality.touched">
+                      <div
+                        *ngIf="Nationality.hasError('required')"
+                        class="form-text text-danger"
+                      >
+                        من فضلك ادخل الجنسيه
+                      </div>
+                    </ng-container>
+                  </div>
+                </div>
+              </form>
+              <div class="card">
+                <div class="card-body text-center">بيانات العمل</div>
+              </div>
+              <form [formGroup]="EmployeeForm">
+                <div class="row">
+                  <div class="col-xl-6">
+                    <label for="exampleFormControlInput1" class="form-label">
+                      تاريخ التعاقد</label
+                    >
+                    <input
+                      formControlName="HireDate"
+                      type="date"
+                      id="example"
+                      class="form-control"
+                    />
+                    <ng-container *ngIf="HireDate.touched">
+                      <div
+                        *ngIf="HireDate.hasError('required')"
+                        class="form-text text-danger"
+                      >
+                        من فضلك اختر تاريخ التعاقد
+                      </div>
+                      <div
+                        *ngIf="HireDate.hasError('DateInvalid')"
+                        class="form-text text-danger"
+                      >
+                        من فضلك اختر تاريخ تعاقد صحيح
+                      </div>
+                    </ng-container>
+                  </div>
+                  <div class="col-xl-6">
+                    <label for="exampleFormControlInput2" class="form-label">
+                      الراتب</label
+                    >
+                    <input
+                      formControlName="Salary"
+                      type="text"
+                      class="form-control"
+                      aria-label="address"
+                    />
+                    <ng-container *ngIf="Salary.touched">
+                      <div
+                        *ngIf="Salary.hasError('required')"
+                        class="form-text text-danger"
+                      >
+                        من فضلك ادخل المرتب
+                      </div>
+                      <div
+                        *ngIf="Salary.hasError('pattern')"
+                        class="form-text text-danger"
+                      >
+                        من فضلك ادخل مرتب صحيح
+                      </div>
+                    </ng-container>
+                  </div>
+                </div>
+                <div class="row">
+                  <div class="col-xl-6">
+                    <label for="exampleFormControlInput3" class="form-label">
+                      موعد الحضور</label
+                    >
+                    <input
+                      formControlName="CheckinTime"
+                      type="time"
+                      id="my-time-input"
+                      name="myTime"
+                      class="form-control"
+                    />
+                    <ng-container *ngIf="CheckinTime.touched">
+                      <div
+                        *ngIf="CheckinTime.hasError('required')"
+                        class="form-text text-danger"
+                      >
+                        من فضلك ادخل موعد الحضور
+                      </div>
+                    </ng-container>
+                  </div>
+                  <div class="col-xl-6">
+                    <label for="exampleFormControlInput3" class="form-label">
+                      موعد الانصراف</label
+                    >
+                    <input
+                      formControlName="CheckoutTime"
+                      type="time"
+                      id="my-time-input"
+                      name="myTime"
+                      class="form-control"
+                    />
+                    <ng-container *ngIf="CheckoutTime.touched">
+                      <div
+                        *ngIf="CheckoutTime.hasError('required')"
+                        class="form-text text-danger"
+                      >
+                        من فضلك ادخل موعد الانصراف
+                      </div>
+                    </ng-container>
+                  </div>
+                </div>
+              </form>
+            </div>
+          </div>
+          <div class="modal-footer">
+            <button *ngIf="!isEdited" type="button" class="btn btn-outline-danger">
+              تراجع
+            </button>
+            <button
+              *ngIf="!isEdited"
+              [disabled]="!EmployeeForm.valid"
+              class="btn btn-success"
+              data-bs-target="#exampleModalAdded"
+              data-bs-toggle="modal"
+              data-bs-dismiss="modal"
+              (click)="AddEmployee()"
+            >
+              اضافه
+            </button>
+            <button
+              [disabled]="!EmployeeForm.valid"
+              *ngIf="isEdited"
+              class="btn btn-outline-warning"
+              data-bs-target="#exampleModalEdite"
+              data-bs-toggle="modal"
+              data-bs-dismiss="modal"
+            >
+              حفظ التعديل
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div
+      class="modal fade"
+      id="exampleModalAdded"
+      aria-hidden="true"
+      aria-labelledby="exampleModalToggleLabel2"
+      tabindex="-1"
+    >
+      <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content">
+          <div class="modal-header"></div>
+          <div class="modal-body">تم الحفظ بنجاح</div>
+          <div class="modal-footer">
+            <button
+              class="btn btn-outline-success"
+              data-bs-dismiss="modal"
+            >
+              تم
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div
+      class="modal fade"
+      id="exampleModalEdite"
+      aria-hidden="true"
+      aria-labelledby="exampleModalEdite"
+      tabindex="-1"
+    >
+      <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content">
+          <div class="modal-header"></div>
+          <div class="modal-body">
+            انت على وشك تغيير بيانات الموظف هل انت متأكد؟
+          </div>
+          <div class="modal-footer">
+            <button
+              class="btn btn-outline-danger"
+              data-bs-dismiss="modal"
+              (click)="SaveEdite()"
+            >
+              نعم
+            </button>
+            <button
+              class="btn btn-primary"
+              data-bs-dismiss="modal"
+              (click)="back()"
+            >
+              تراجع
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="tableStyle">
+      <section id="prinatabletable">
+        <div class="table-wrapper-scroll-y my-custom-scrollbar">
+          <div class="table-responsive">
+            <table class="table table-hover">
+              <thead class="table-light text-center">
+                <tr>
+                  <th scope="col">م</th>
+                  <th scope="col">الاسم</th>
+                  <th scope="col">العنوان</th>
+                  <th scope="col">التليفون</th>
+                  <th scope="col">تاريخ الميلاد</th>
+                  <th scope="col">النوع</th>
+                  <th scope="col">الجنسيه</th>
+                  <th scope="col">الرقم القومي</th>
+                  <th scope="col">القسم</th>
+                  <th scope="col">تاريخ التعاقد</th>
+                  <th scope="col">الراتب</th>
+                  <th scope="col">موعد الحضور</th>
+                  <th scope="col">موعد الانصراف</th>
+                  <th>حذف</th>
+                  <th>تعديل</th>
+                </tr>
+              </thead>
+              <tbody class="text-center">
+                <tr *ngFor="let Emp of Employees; let i = index">
+                  <td>{{ i + 1 }}</td>
+                  <td>{{ Emp.name }}</td>
+                  <td>{{ Emp.address }}</td>
+                  <td>{{ Emp.phone }}</td>
+                  <td>{{ Emp.birthDate | date : "dd/MM/YYYY" }}</td>
+                  <td>{{ Emp.gender }}</td>
+                  <td>{{ Emp.nationality }}</td>
+                  <td>{{ Emp.nationalID }}</td>
+                  <td>{{ Emp.departmentName }}</td>
+                  <td>{{ Emp.hireDate | date : "dd/MM/YYYY" }}</td>
+                  <td>{{ Emp.salary }}</td>
+                  <td>{{ Emp.startTime }}</td>
+                  <td>{{ Emp.endTime }}</td>
+
+                  <td>
+                    <button
+                      type="button"
+                      class="btn btn-outline-danger"
+                      data-bs-toggle="modal"
+                      data-bs-target="#exampleModalDelete"
+                      (click)="SelectID(Emp.id)"
+                    >
+                      <i class="fa fa-trash" aria-hidden="true"></i>
+                    </button>
+
+                    <!-- Modal Delete -->
+                    <div
+                      class="modal fade"
+                      id="exampleModalDelete"
+                      tabindex="-1"
+                      aria-labelledby="exampleModalLabel"
+                      aria-hidden="true"
+                    >
+                      <div class="modal-dialog modal-dialog-centered">
+                        <div class="modal-content">
+                          <div class="modal-body">
+                            أنت على وشك حذف هذا الموظف هل انت متأكد؟
+                          </div>
+                          <div class="modal-footer">
+                            <button
+                              type="button"
+                              class="btn btn-primary"
+                              data-bs-dismiss="modal"
+                            >
+                              تراجع
+                            </button>
+                            <button
+                              type="button"
+                              (click)="DeleteEmp()"
+                              class="btn btn-danger"
+                              data-bs-dismiss="modal"
+                            >
+                              حذف
+                            </button>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </td>
+                  <td>
+                    <button
+                      (click)="UpdateEmp(Emp.id)"
+                      type="button"
+                      class="btn btn-outline-warning"
+                      data-bs-toggle="modal"
+                      data-bs-target="#exampleModalForm"
+                      data-bs-whatever="@getbootstrap"
+                    >
+                      <i class="fa fa-pencil-square"></i>
+                    </button>
+                  </td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </section>
     </div>
   </div>
-  <form class="p-5">
-    <div class="row">
-      <div class="col">
-        <label for="exampleFormControlInput1" class="form-label">اسم الموظف</label>
-        <input type="text" class="form-control" aria-label="First name">
-      </div>
-      <div class="col">
-        <label for="exampleFormControlInput2" class="form-label"> العنوان</label>
-        <input type="text" class="form-control" aria-label="address" >
-      </div>
-    </div>
-    <div class="row">
-      <div class="col">
-        <label for="exampleFormControlInput3" class="form-label"> رقم تليفون</label>
-        <input type="text" class="form-control" aria-label="phone">
-      </div>
-      <div class="col">
-        <label for="exampleFormControlInput4" class="form-label">النوع</label>
-        <div class="input-group mb-3">
-          <select class="form-select" id="inputGroupSelect01">
-            <option selected>Choose...</option>
-            <option value="1">أنثى</option>
-            <option value="2">ذكر</option>
-          </select>
-      </div>
-      </div>
-      </div>
-      <div class="row">
-        <div class="col">
-          <label for="exampleFormControlInput4" class="form-label"> الرقم القومي</label>
-          <input type="text" class="form-control" aria-label="NationalID">
-        </div>
-        <div class="col">
-          <label for="exampleFormControlInput5" class="form-label"> الجنسيه</label>
-      <input type="text" class="form-control" aria-label="nationality">
-        </div>
-      </div>
-  </form>
-
-
-  <div class="card">
-    <div class="card-body text-center">
-      بيانات العمل
-    </div>
-  </div>
-  <form class="p-5">
-    <div class="row">
-      <div class="col">
-        <label for="exampleFormControlInput1" class="form-label"> تاريخ التعاقد</label>
-        <input type="date" id="example" class="form-control">
-        </div>
-      <div class="col">
-        <label for="exampleFormControlInput2" class="form-label"> الراتب</label>
-        <input type="text" class="form-control" aria-label="address" >
-      </div>
-    </div>
-    <div class="row">
-      <div class="col">
-        <label for="exampleFormControlInput3" class="form-label"> موعد الحضور</label>
-        <input type="time" id="my-time-input" name="myTime" class="form-control">
-      </div>
-      <div class="col">
-        <label for="exampleFormControlInput3" class="form-label"> موعد الانصراف</label>
-        <input type="time" id="my-time-input" name="myTime" class="form-control">
-      </div>
-
-      </div>
-
-  </form>
-
-
 </div>

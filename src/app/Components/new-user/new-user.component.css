@@ -1,0 +1,18 @@
+.container{
+  border: 2px solid black;
+}
+.card
+{
+  color: black;
+  font-size: 20px;
+  border-radius: 20px;
+}
+.card-body{
+  border: none;
+  background-color: #3F5E98;
+  color: aliceblue;
+  border-radius: 20px;
+}
+input,select{
+  border-radius: 20px;
+}

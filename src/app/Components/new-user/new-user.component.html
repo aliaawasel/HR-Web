@@ -1,0 +1,72 @@
+<div class="container g-3">
+  <div class="card">
+    <div class="card-body text-center">بيانات الموظف</div>
+  </div>
+<form class="p-5" [formGroup]="UserForm">
+  <div class="row">
+    <div class="col">
+      <label for="exampleFormControlInput1" class="form-label">اسم المستخدم</label>
+      <input formControlName="UserName" type="text" class="form-control" aria-label="First name">
+    </div>
+    <div class="col">
+      <label for="exampleFormControlInput2" class="form-label"> الاسم بالكامل</label>
+      <input formControlName="FullName" type="text" class="form-control" aria-label="address" >
+    </div>
+  </div>
+    <div class="row">
+      <div class="col">
+        <label for="exampleFormControlInput4" class="form-label"> الرقم السري</label>
+        <input formControlName="Password" type="text" class="form-control" aria-label="NationalID">
+      </div>
+      <div class="col">
+        <label for="exampleFormControlInput3" class="form-label">  البريد الالكتروني</label>
+        <input formControlName="Email" type="text" class="form-control" aria-label="phone">
+      </div>
+    </div>
+    <div class="row">
+      <div class="col">
+        <label for="exampleFormControlInput4" class="form-label">الصلاحيات</label>
+        <div class="input-group mb-3">
+          <select formControlName="Groups" class="form-select" id="inputGroupSelect01">
+            <option value={{1}} >أنثى</option>
+            <option value={{1}} >ذكر</option>
+          </select>
+      </div>
+      </div>
+    </div>
+    <button
+    (click)="AddUser()"
+    type="button"
+    class="btn btn-primary"
+    data-bs-toggle="modal"
+    data-bs-target="#exampleModal"
+  >
+    اضافه
+  </button>
+
+  <!-- Modal -->
+  <div
+    class="modal fade"
+    id="exampleModal"
+    tabindex="-1"
+    aria-labelledby="exampleModalLabel"
+    aria-hidden="true"
+  >
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <div class="modal-body">تم الحفظ بنجاح</div>
+        <div class="modal-footer">
+          <button
+            type="button"
+            class="btn btn-secondary"
+            data-bs-dismiss="modal"
+          >
+            الغاء
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+</form>
+</div>
+
