@@ -1,12 +1,16 @@
-import { FormGroup, FormControl, Validators } from '@angular/forms';
+import { FormGroup, FormControl, Validators} from '@angular/forms';
 import { UserService } from './../../../services/user.service';
 import { Component, OnInit } from '@angular/core';
+
+
 
 @Component({
   selector: 'app-users',
   templateUrl: './users.component.html',
   styleUrls: ['./users.component.css']
 })
+
+
 export class UsersComponent implements OnInit{
 
 
@@ -15,6 +19,8 @@ export class UsersComponent implements OnInit{
   isEdited:boolean=false
   selectedID:any
   groups:any
+  AddedBefore:boolean=false
+  Addedonce:boolean=false
 
   ngOnInit(): void {
     this.GetAllUsers();
@@ -27,7 +33,7 @@ export class UsersComponent implements OnInit{
 
   UserForm=new FormGroup({
     UserName:new FormControl('',[Validators.required,Validators.minLength(3)]),
-    FullName:new FormControl('',[Validators.required,Validators.minLength(6)]),
+    FullName:new FormControl('',[Validators.required,Validators.minLength(5)]),
     Password:new FormControl('',[Validators.required,Validators.minLength(8)]),
     Email:new FormControl('',[Validators.required,Validators.pattern('^[a-z0-9._%+-]+@[a-z0-9.-]+\\.[a-z]{2,4}$')]),
     Groups:new FormControl('',[Validators.required])
@@ -76,7 +82,7 @@ export class UsersComponent implements OnInit{
   }
     )
   }
-  UpdateUSer(id:number){
+  UpdateUSer(id:string){
     this.isEdited=true;
     this.selectedID=id;
     this.UserService.GetById(id).subscribe((result:any)=>{
@@ -117,9 +123,48 @@ export class UsersComponent implements OnInit{
   back(){
     this.UserForm.reset();
     this.isEdited=false;
+    this.AddedBefore=false;
   }
-  SelectID(id:number){
+  SelectID(id:string){
     this.selectedID=id;
   }
+checkFounding(username:any){
+  this.UserService.CheckFound(username).subscribe((result:any)=>{
+    if (result != null) {
+      const jsonString = JSON.stringify(result); // Convert object to JSON string
+      const parsedData = JSON.parse(jsonString);
+      if ((parsedData.message = 'Found')) {
+        this.AddedBefore = true;
+      }
+    }
+    if (result == null) {
+      this.AddedBefore = false;
+    }
+  })
+}
 
+checkMail(mail:any){
+  this.UserService.CheckEmail(mail).subscribe((result:any)=>{
+    if (result != null) {
+      const jsonString = JSON.stringify(result); // Convert object to JSON string
+      const parsedData = JSON.parse(jsonString);
+      if ((parsedData.message = 'Found')) {
+        this.Addedonce = true;
+      }
+    }
+    if (result == null) {
+      this.Addedonce = false;
+    }
+  })
+}
+
+
+myFunction(){
+  var x = document.getElementById("myInput") as HTMLInputElement;
+  if (x.type === "password") {
+    x.type = "text";
+  } else {
+    x.type = "password";
+  }
+}
 }

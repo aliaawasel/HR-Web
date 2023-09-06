@@ -15,7 +15,7 @@ export class CustomFilterPipePipe implements PipeTransform {
     term: string,
     excludes: any
   ): Array<{ [key: string]: any }> {
-    const toCompare = term.toLowerCase();
+    const toCompare = term.toLowerCase().replace(/\s+/g, ' ');
 
     function checkInside(item: any, term: string) {
       if (
@@ -23,6 +23,7 @@ export class CustomFilterPipePipe implements PipeTransform {
         item
           .toString()
           .toLowerCase()
+          .replace(/\s+/g, ' ')
           .includes(toCompare)
       ) {
         return true;
@@ -45,6 +46,7 @@ export class CustomFilterPipePipe implements PipeTransform {
           item[property]
             .toString()
             .toLowerCase()
+            .replace(/\s+/g, ' ')
             .includes(toCompare)
         ) {
           return true;

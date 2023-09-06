@@ -22,7 +22,9 @@ export class DepartmentService {
   }
   EditDept(data:any){
     return this.http.put(`${this.baseUrl}/Update`,data)
-
+  }
+  CheckDept(id:any,name:any){
+    return this.http.get(`${this.baseUrl}/DeptExist?id=${id}&name=${name}`)
   }
 
 

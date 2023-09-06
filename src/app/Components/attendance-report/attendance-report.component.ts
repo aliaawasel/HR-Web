@@ -42,6 +42,7 @@ export class AttendanceReportComponent implements OnInit {
   AddedBefore: boolean = false;
   selectedID: any;
   searchValidation: boolean = true;
+  search="";
   ngOnInit() {
     this.GetAllDepartments();
     this.GetEmpAllAttendaces();
@@ -129,7 +130,7 @@ export class AttendanceReportComponent implements OnInit {
         if (result == null) {
           this.AddedBefore = false;
         }
-        console.log(result);
+        this.back();
       }
     );
   }
@@ -139,8 +140,6 @@ export class AttendanceReportComponent implements OnInit {
       this.ngOnInit();
     });
   }
-
-
 
 
   GetEmpAllAttendaces() {
@@ -153,16 +152,13 @@ export class AttendanceReportComponent implements OnInit {
   }
 
 
-
-  GetByName(name: string) {
-    this.AttendanceReportService.GetByName(name).subscribe((rseult: any) => {
-      this.Attendances = rseult;
+  GetByName() {
       if (this.Attendances.length == 0) {
         this.searchValidation = false;
       } else {
         this.searchValidation = true;
       }
-    });
+    ;
   }
 
   GetByDate(date1: string, date2: string) {
@@ -194,8 +190,76 @@ export class AttendanceReportComponent implements OnInit {
       document.body.innerHTML = originalContents;
     }
   }
+
+onPreview() {
+    let printContents = '';
+    const WindowObject = window.open('');
+    if (WindowObject) {
+      printContents += `
+        <table style="border-collapse: collapse; width: 100%;">
+          <tbody class="table-light" dir="rtl">
+            <tr>
+            <th scope="col" style="border: 1px solid black; padding: 8px;">التاريخ</th>
+            <th scope="col" style="border: 1px solid black; padding: 8px;">وقت الانصراف</th>
+              <th scope="col" style="border: 1px solid black; padding: 8px;">وقت الحضور</th>
+              <th scope="col" style="border: 1px solid black; padding: 8px;">اسم الموظف</th>
+              <th scope="col" style="border: 1px solid black; padding: 8px;">القسم</th>
+
+            </tr>
+      `;
+
+      this.Attendances.forEach((a: any) => {
+        printContents += `
+          <tr>
+          <td style="border: 1px solid black; padding: 8px;">${a.date}</td>
+          <td style="border: 1px solid black; padding: 8px;">${a.checkOut}</td>
+
+          <td style="border: 1px solid black; padding: 8px;">${a.checkIn}</td>
+
+          <td style="border: 1px solid black; padding: 8px;">${a.employeeName}</td>
+          <td style="border: 1px solid black; padding: 8px;">${a.departmentName}</td>
+
+
+          </tr>
+        `;
+      });
+
+      printContents += '</tbody></table>';
+
+      const htmlData = `
+        <html>
+          <head>
+            <style>
+              table {
+                width: 100%;
+                border-collapse: collapse;
+              }
+              th, td {
+                border: 1px solid black;
+                padding: 8px;
+              }
+            </style>
+          </head>
+          <body>
+            ${printContents}
+          </body>
+        </html>
+      `;
+
+      WindowObject.document.writeln(htmlData);
+      WindowObject.print()
+      WindowObject.document.close();
+      WindowObject.focus();
+      // setTimeout(() => {
+      //   WindowObject.close();
+      // }, 0.5);
+    }
+  }
+
   back() {
-    this.AttendanceForm.reset();
+    this.EmpName.reset();
+    this.DeptName.reset();
+    this.Date.reset();
     this.isEdited = false;
   }
   Edit(id: number) {
@@ -208,7 +272,7 @@ export class AttendanceReportComponent implements OnInit {
         this.AttendanceForm.patchValue({
           CheckinTime: attendance.checkIn,
           CheckoutTime: attendance.checkOut,
-          Date: new Date(attendance.date).getDate.toString(),
+          Date: attendance.date,
           DeptName: attendance.deptId,
           EmpName: attendance.empId,
         });
@@ -217,10 +281,13 @@ export class AttendanceReportComponent implements OnInit {
     );
   }
 
+
+
+
   SaveEdite() {
     const Attendance = {
       id: this.selectedID,
-      checkIn: `${this.AttendanceForm.value.CheckinTime}`,
+      checkIn: `${this.AttendanceForm.value.CheckinTime}:00`,
       checkout: `${this.AttendanceForm.value.CheckoutTime}`,
       date: this.AttendanceForm.value.Date,
       empId: this.AttendanceForm.value.EmpName,
@@ -230,7 +297,6 @@ export class AttendanceReportComponent implements OnInit {
       this.ngOnInit();
     });
   }
-
 
 
   page: number = 1;
@@ -248,4 +314,32 @@ export class AttendanceReportComponent implements OnInit {
     this.page = 1;
     this.GetEmpAllAttendaces();
   }
+
+  // printAllPages() {
+  //   const originalContents = document.body.innerHTML;
+  //   const printableSection = document.getElementById('prinatabletable');
+  //   if (printableSection) {
+  //     const printContents = printableSection.innerHTML;
+  //     document.body.innerHTML = printContents;
+  //     window.print();
+  //     document.body.innerHTML = originalContents;
+  //   }
+  // }
+
+  // onTableDataChange(event: any) {
+  //   this.page = event;
+  //   this.GetEmpAllAttendaces();
+  //   setTimeout(() => {
+  //     this.printAllPages();
+  //   }, 1000); // Delay the printing to allow the page content to load properly
+  // }
+
+  // onTableSizeChange(event: any): void {
+  //   this.tableSize = event.target.value;
+  //   this.page = 1;
+  //   this.GetEmpAllAttendaces();
+  //   setTimeout(() => {
+  //     this.printAllPages();
+  //   }, 1000); // Delay the printing to allow the page content to load properly
+  // }
 }

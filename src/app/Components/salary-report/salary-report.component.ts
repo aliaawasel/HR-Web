@@ -19,7 +19,7 @@ export class SalaryReportComponent implements OnInit {
   currentYear: any;
   ViewMonth: any;
   ViewYear: any;
-  search=""
+  search = '';
 
   SalaryForm = new FormGroup({
     Month: new FormControl('', [Validators.required]),
@@ -56,7 +56,6 @@ export class SalaryReportComponent implements OnInit {
       });
   }
 
-
   printPage() {
     const printableSection = document.getElementById('prinatabletable');
     if (printableSection) {
@@ -69,68 +68,78 @@ export class SalaryReportComponent implements OnInit {
   }
 
   printRow(s: any): void {
-    const printWindow = window.open('', '_blank');
+    const printWindow = window.open('');
     if (printWindow) {
       printWindow.document.write(`
-        <html>
-        <div class="tableStyle">
-        <div class="table-wrapper-scroll-y my-custom-scrollbar">
-          <div class="table-responsive">
-            <table class="table table-hover">
-            <thead class="table-light text-center" dir="rtl">
-            <title>Print Row</title>
-          </thead>
-          <body>
-            <table>
-              <thead>
-                <tr>
-                <th>صافي المرتب</th>
-                <th>   </th>
-                <th scope="col">اجمالي الخصم</th>
-                <th>   </th>
-                <th scope="col">اجمالي الاضافي</th>
-                <th>   </th>
-                <th scope="col">الخصم بالساعات</th>
-                <th>   </th>
-                <th scope="col">الاضافي بالساعات</th>
-                <th>   </th>
-                <th scope="col">عدد ايام الغياب</th>
-                <th>   </th>
-                <th scope="col">عدد ايام الحضور</th>
-                <th>   </th>
-                <th scope="col">الراتب الاساسي</th>
-                <th>   </th>
-                <th scope="col">اسم الموظف</th>
-                <th>   </th>
-                <th scope="col">القسم</th>
-                </tr>
-              </thead>
-              <tbody class="text-center">
-                <tr>
-                  <td>${s.actualSalary}</td>
-                  <td>  </td>
-                  <td>${s.totalSubs}</td>
-                  <td>  </td>
-                  <td>${s.totalAdds}</td>
-                  <td>  </td>
-                  <td>${s.subs}</td>
-                  <td>  </td>
-                  <td>${s.adds}</td>
-                  <td>  </td>
-                  <td>${s.absenceDays}</td>
-                  <td>  </td>
-                  <td>${s.attendanceDays}</td>
-                  <td>  </td>
-                  <td>${s.netSalary}</td>
-                  <td></td>
-                  <td>${s.employeeName}</td>
-                  <td></td>
-                  <td>${s.departmentName}</td>
-                </tr>
-              </tbody>
-            </table>
-          </body>
-        </html>
+      <html>
+      <head>
+        <style>
+          .container {
+            display: flex;
+            flex-direction: row;
+            justify-content: flex-end;
+          }
+          .tableStyle {
+            width: 20%;
+          }
+        </style>
+      </head>
+      <body>
+        <div class="container">
+          <div class="tableStyle">
+                <table >
+                  <tbody class="table-light" dir="rtl">
+                    <tr>
+                    <td>${s.departmentName}</td>
+                      <th>القسم</th>
+                    </tr>
+                    <tr>
+                    <td>${s.employeeName}</td>
+                      <th>اسم الموظف</th>
+                    </tr>
+                    <tr>
+                      <td>${s.netSalary}</td>
+                      <th>الراتب الاساسي</th>
+                    </tr>
+                    <tr>
+                    <td>${s.attendanceDays}</td>
+                      <th>عدد ايام الحضور</th>
+                    </tr>
+                    <tr>                      <td>${s.absenceDays}</td>
+
+                      <th>عدد ايام الغياب</th>
+                    </tr>
+                    <tr>
+                    <td>${s.adds}</td>
+
+                      <th>الاضافي بالساعات</th>
+                    </tr>
+                    <tr>
+                    <td>${s.subs}</td>
+
+                      <th>الخصم بالساعات</th>
+                    </tr>
+                    <tr>
+                    <td>${s.totalAdds}</td>
+
+                      <th>اجمالي الاضافي</th>
+                    </tr>
+                    <tr>
+                    <td>${s.totalSubs}</td>
+
+                      <th>اجمالي الخصم</th>
+                    </tr>
+                    <tr>
+                    <td>${s.actualSalary}</td>
+
+                      <th>صافي المرتب</th>
+                    </tr>
+                  </tbody>
+                </table>
+              </div>
+        </div>
+      </body>
+    </html>
       `);
       printWindow.print();
       printWindow.close();

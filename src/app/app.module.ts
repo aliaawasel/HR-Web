@@ -23,6 +23,8 @@ import { NewUserComponent } from './Components/new-user/new-user.component';
 import { AttendanceReportComponent } from './Components/attendance-report/attendance-report.component';
 import { CustomFilterPipePipe } from './custom-filter-pipe.pipe';
 import { NgxPaginationModule } from 'ngx-pagination';
+import { LoginComponent } from './Components/login/login.component';
+
 
 
 @NgModule({
@@ -40,11 +42,11 @@ import { NgxPaginationModule } from 'ngx-pagination';
     NewUserComponent,
     AttendanceReportComponent,
     CustomFilterPipePipe,
+    LoginComponent,
   ],
   imports: [
     BrowserModule,
-    AppRoutingModule,FontAwesomeModule,RouterModule,HttpClientModule,ReactiveFormsModule,FormsModule,NgxPaginationModule
-    ],
+    AppRoutingModule,FontAwesomeModule,RouterModule,HttpClientModule,ReactiveFormsModule,FormsModule,NgxPaginationModule,    ],
   providers: [],
   bootstrap: [AppComponent]
 })

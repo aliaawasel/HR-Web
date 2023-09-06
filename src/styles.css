@@ -1,3 +1,22 @@
 body{
   direction: rtl;
 }
+.ngx-pagination {
+  padding-left: 0px !important;
+}
+
+.ngx-pagination .current,
+.btn-info {
+  background: green !important;
+  border: transparent !important;
+  border-radius: 20px !important;
+}
+
+.ngx-pagination .current:hover {
+  background: rgb(194, 215, 194) !important;
+  border-radius: 20px !important;
+  border: transparent !important;
+}
+
+html, body { height: 100%; }
+body { margin: 0;font-size: 17px !important; font-family: "Roboto", "Helvetica Neue", sans-serif; }

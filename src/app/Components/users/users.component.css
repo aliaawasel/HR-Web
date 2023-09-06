@@ -16,3 +16,4 @@ input,select{
 .table-responsive {
   max-height:400px;
 }
+.hidetext { -webkit-text-security: disc; /* Default */ }

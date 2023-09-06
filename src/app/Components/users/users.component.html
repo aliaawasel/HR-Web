@@ -52,12 +52,23 @@
                     <label for="exampleFormControlInput1" class="form-label"
                       >اسم المستخدم</label
                     >
+                    <span *ngIf="UserName.hasError('required')" class="text-danger fs-5">
+                      *
+                    </span>
                     <input
                       formControlName="UserName"
                       type="text"
                       class="form-control"
                       aria-label="First name"
+                      #username
+                      (change)="checkFounding(username.value)"
                     />
+                    <div
+                      *ngIf="AddedBefore && username.value != ''"
+                      class="form-text text-danger"
+                    >
+                      هذا الاسم مستخدم من قبل
+                    </div>
                     <ng-container *ngIf="UserName.touched">
                       <div
                         *ngIf="UserName.hasError('required')"
@@ -67,18 +78,21 @@
                       </div>
 
                       <div
-                      *ngIf="UserName.hasError('minlength')"
-                      id="name"
-                      class="form-text text-danger w-75"
-                    >
-                      لا يقل الاسم عن 3 حروف
-                    </div>
+                        *ngIf="UserName.hasError('minlength')"
+                        id="name"
+                        class="form-text text-danger w-75"
+                      >
+                        لا يقل الاسم عن 3 حروف
+                      </div>
                     </ng-container>
                   </div>
                   <div class="col">
                     <label for="exampleFormControlInput2" class="form-label">
                       الاسم بالكامل</label
                     >
+                    <span *ngIf="FullName.hasError('required')" class="text-danger fs-5">
+                      *
+                    </span>
                     <input
                       formControlName="FullName"
                       type="text"
@@ -94,12 +108,12 @@
                       </div>
 
                       <div
-                      *ngIf="FullName.hasError('minlength')"
-                      id="name"
-                      class="form-text text-danger w-75"
-                    >
-                      لا يقل الاسم عن 3 حروف
-                    </div>
+                        *ngIf="FullName.hasError('minlength')"
+                        id="name"
+                        class="form-text text-danger w-75"
+                      >
+                        لا يقل الاسم عن 5 حروف
+                      </div>
                     </ng-container>
                   </div>
                 </div>
@@ -108,11 +122,17 @@
                     <label for="exampleFormControlInput4" class="form-label">
                       الرقم السري</label
                     >
+                    <span *ngIf="Password.hasError('required')" class="text-danger fs-5">
+                      *
+                    </span>
+
                     <input
                       formControlName="Password"
-                      type="text"
+                      type="password"
+                      value="FakePSW"
                       class="form-control"
-                      aria-label="NationalID"
+                      aria-label="password"
+                      id="myInput"
                     />
                     <ng-container *ngIf="Password.touched">
                       <div
@@ -122,23 +142,37 @@
                         من فضلك ادخل كلمه السر
                       </div>
                       <div
-                      *ngIf="Password.hasError('minlength')"
-                      id="name"
-                      class="form-text text-danger w-75"
-                    >
-                      لا يقل الرقم السري عن 8 حروف
-                    </div>
+                        *ngIf="Password.hasError('minlength')"
+                        id="name"
+                        class="form-text text-danger w-75"
+                      >
+                        لا يقل الرقم السري عن 8 حروف
+                      </div>
                     </ng-container>
+                    <div class="col-2">
+                      <input type="checkbox" (click)="myFunction()"><i class="fa fa-solid fa-eye"></i>
+                    </div>
                     <div class="col">
                       <label for="exampleFormControlInput3" class="form-label">
                         البريد الالكتروني</label
                       >
+                      <span *ngIf="Email.hasError('required')" class="text-danger fs-5">
+                        *
+                      </span>
                       <input
                         formControlName="Email"
                         type="text"
                         class="form-control"
                         aria-label="phone"
+                        #mail
+                        (change)="checkMail(mail.value)"
                       />
+                      <div
+                      *ngIf="Addedonce && mail.value != ''"
+                      class="form-text text-danger"
+                    >
+                      هذا البريد مستخدم من قبل
+                    </div>
                       <ng-container *ngIf="Email.touched">
                         <div
                           *ngIf="Email.hasError('required')"
@@ -160,6 +194,9 @@
                       <label for="exampleFormControlInput4" class="form-label"
                         >المجموعات</label
                       >
+                      <span *ngIf="Groups.hasError('required')" class="text-danger fs-5">
+                        *
+                      </span>
                       <div class="input-group mb-3">
                         <select
                           formControlName="Groups"
@@ -186,12 +223,17 @@
             </div>
           </div>
           <div class="modal-footer">
-            <button *ngIf="!isEdited" type="button" class="btn btn-danger" (click)="back()">
+            <button
+              *ngIf="!isEdited"
+              type="button"
+              class="btn btn-danger"
+              (click)="back()"
+            >
               تراجع
             </button>
             <button
               *ngIf="!isEdited"
-              [disabled]="!UserForm.valid"
+              [disabled]="!UserForm.valid || AddedBefore || Addedonce"
               class="btn btn-success"
               data-bs-target="#exampleModalAdded"
               data-bs-toggle="modal"
@@ -227,10 +269,7 @@
           <div class="modal-header"></div>
           <div class="modal-body">تم الحفظ بنجاح</div>
           <div class="modal-footer">
-            <button
-              class="btn btn-outline-success"
-              data-bs-dismiss="modal"
-            >
+            <button class="btn btn-outline-success" data-bs-dismiss="modal">
               تم
             </button>
           </div>
@@ -293,7 +332,7 @@
                 <td>{{ user.fullName }}</td>
                 <td>{{ user.username }}</td>
                 <td>{{ user.email }}</td>
-                <td>{{ user.password }}</td>
+                <td class="hidetext">{{ user.password }}</td>
                 <td>
                   <button
                     type="button"

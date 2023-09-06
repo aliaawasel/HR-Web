@@ -43,12 +43,24 @@
                       <label for="exampleFormControlInput4" class="form-label"
                         >اسم الاجازه</label
                       >
+                      <span *ngIf="vocationName.hasError('required')" class="text-danger fs-5">
+                        *
+                      </span>
                       <input
                         formControlName="vocationName"
                         type="text"
                         class="form-control"
                         aria-label="vocationName"
+                        #name
+                        (change)="checkNameExist(name.value)"
                       />
+                      <div
+                        *ngIf="nameExist && name.value !=''"
+                        id="Username"
+                        class="form-text text-danger"
+                      >
+                        تم تسجيل هذه الاجازه من قبل
+                      </div>
                       <ng-container *ngIf="vocationName.touched">
                         <div
                           *ngIf="vocationName.hasError('required')"
@@ -65,13 +77,25 @@
                       <label for="exampleFormControlInput1" class="form-label">
                         التاريخ</label
                       >
+                      <span *ngIf="vocationDate.hasError('required')" class="text-danger fs-5">
+                        *
+                      </span>
                       <input
                         formControlName="vocationDate"
                         type="date"
                         id="example"
                         class="form-control"
                         aria-label="vocationDate"
+                        #date
+                        (change)="checkDateExist(date.value)"
                       />
+                      <div
+                        *ngIf="DateExist && date.value!=''"
+                        id="Username"
+                        class="form-text text-danger"
+                      >
+                        تم تسجيل هذا التاريخ من قبل
+                      </div>
                       <ng-container *ngIf="vocationDate.touched">
                         <div
                           *ngIf="vocationDate.hasError('required')"
@@ -89,7 +113,7 @@
             <div class="modal-footer">
               <button
                 *ngIf="!isEdited"
-                [disabled]="!vocationForm.valid"
+                [disabled]="!vocationForm.valid || nameExist || DateExist"
                 class="btn btn-success"
                 data-bs-target="#exampleModalAdded"
                 data-bs-toggle="modal"
@@ -123,15 +147,12 @@
         <div class="modal-dialog modal-dialog-centered">
           <div class="modal-content">
             <div class="modal-header"></div>
-            <div class="modal-body" *ngIf="!AddedBefore" >تم الحفظ بنجاح</div>
-            <div class="modal-body text-danger" *ngIf="AddedBefore">
-              تم اضافه هذه الاجازه من قبل
-            </div>
+            <div class="modal-body" *ngIf="DateExist==false">تم الحفظ بنجاح</div>
+            <!-- <div class="modal-body" *ngIf="nameExist==true">تم اضافه هذاالاسم من قبل</div> -->
+            <!-- <div class="modal-body" *ngIf="DateExist==true">تم اضافه هذاالتاريخ من قبل</div> -->
+
             <div class="modal-footer">
-              <button
-                class="btn btn-outline-success"
-                data-bs-dismiss="modal"
-              >
+              <button class="btn btn-outline-success" data-bs-dismiss="modal">
                 تم
               </button>
             </div>
@@ -154,13 +175,16 @@
               انت على وشك تغيير بيانات الموظف هل انت متأكد؟
             </div>
             <div class="modal-footer">
-              <button class="btn btn-outline-danger" data-bs-dismiss="modal" (click)="SaveEdite()">
-                نعم
-              </button>
               <button
                 class="btn btn-primary"
+                data-bs-target="#exampleModalAdded"
+                data-bs-toggle="modal"
                 data-bs-dismiss="modal"
+                (click)="SaveEdite()"
               >
+                نعم
+              </button>
+              <button class="btn btn-primary" data-bs-dismiss="modal">
                 تراجع
               </button>
             </div>
@@ -183,17 +207,17 @@
             <tr *ngFor="let vocation of Vocations; let i = index">
               <td>{{ i + 1 }}</td>
               <td>{{ vocation.name }}</td>
-              <td>{{ vocation.date | date : "dd/MM/YYYY"  }}</td>
+              <td>{{ vocation.date | date : "dd/MM/YYYY" }}</td>
               <td>
                 <button
-                type="button"
-                class="btn btn-outline-danger"
-                data-bs-toggle="modal"
-                data-bs-target="#exampleModalDelete"
-                (click)="SelectID(vocation.id)"
-              >
-                <i class="fa fa-trash" aria-hidden="true"></i>
-              </button>
+                  type="button"
+                  class="btn btn-outline-danger"
+                  data-bs-toggle="modal"
+                  data-bs-target="#exampleModalDelete"
+                  (click)="SelectID(vocation.id)"
+                >
+                  <i class="fa fa-trash" aria-hidden="true"></i>
+                </button>
 
                 <!-- Modal -->
                 <div

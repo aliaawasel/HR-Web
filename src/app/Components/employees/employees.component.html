@@ -15,7 +15,7 @@
         <i class="fa fa-plus" aria-hidden="true"></i>
       </button>
     </div>
-<!--Form Modal-->
+    <!--Form Modal-->
     <div
       class="modal fade"
       id="exampleModalForm"
@@ -28,11 +28,11 @@
           <div class="modal-header">
             <h5 class="modal-title" id="exampleModalLabel">اضافه موظف جديد</h5>
             <button
-            class="btn btn-outline-danger"
+              class="btn btn-outline-danger"
               data-bs-dismiss="modal"
               aria-label="Close"
             >
-            x
+              x
             </button>
           </div>
           <div class="modal-body">
@@ -47,6 +47,11 @@
               >
                 <div class="row">
                   <div class="col-xl-6">
+                    <span
+                      *ngIf="EmpName.hasError('required')"
+                      class="text-danger"
+                      >*</span
+                    >
                     <label for="exampleFormControlInput1" class="form-label"
                       >اسم الموظف</label
                     >
@@ -64,7 +69,7 @@
                         من فضلك ادخل اسم الموظف
                       </div>
                       <div
-                        *ngIf="EmpName.hasError('minLength')"
+                        *ngIf="EmpName.hasError('minlength')"
                         class="form-text text-danger"
                       >
                         لا يقل الاسم عن حرفين
@@ -72,6 +77,11 @@
                     </ng-container>
                   </div>
                   <div class="col-xl-6">
+                    <span
+                      *ngIf="Address.hasError('required')"
+                      class="text-danger"
+                      >*</span
+                    >
                     <label for="exampleFormControlInput2" class="form-label">
                       العنوان</label
                     >
@@ -94,6 +104,9 @@
 
                 <div class="row">
                   <div class="col-xl-6">
+                    <span *ngIf="Phone.hasError('required')" class="text-danger"
+                      >*</span
+                    >
                     <label for="exampleFormControlInput3" class="form-label">
                       رقم تليفون</label
                     >
@@ -119,6 +132,11 @@
                     </ng-container>
                   </div>
                   <div class="col-xl-6">
+                    <span
+                      *ngIf="Gender.hasError('required')"
+                      class="text-danger"
+                      >*</span
+                    >
                     <label for="exampleFormControlInput4" class="form-label"
                       >النوع</label
                     >
@@ -145,6 +163,11 @@
                 </div>
                 <div class="row">
                   <div class="col-xl-6">
+                    <span
+                      *ngIf="Birthdate.hasError('required')"
+                      class="text-danger"
+                      >*</span
+                    >
                     <label for="exampleFormControlInput1" class="form-label">
                       تاريخ الميلاد</label
                     >
@@ -154,6 +177,7 @@
                       id="example"
                       class="form-control"
                       aria-label="Birthdate"
+                      [max]="maxBDate"
                     />
                     <ng-container *ngIf="Birthdate.touched">
                       <div
@@ -171,6 +195,11 @@
                     </ng-container>
                   </div>
                   <div class="col-xl-6">
+                    <span
+                      *ngIf="Department.hasError('required')"
+                      class="text-danger"
+                      >*</span
+                    >
                     <label for="exampleFormControlInput4" class="form-label"
                       >القسم</label
                     >
@@ -197,6 +226,11 @@
                 </div>
                 <div class="row">
                   <div class="col-xl-6">
+                    <span
+                      *ngIf="NationalId.hasError('required')"
+                      class="text-danger"
+                      >*</span
+                    >
                     <label for="exampleFormControlInput4" class="form-label">
                       الرقم القومي</label
                     >
@@ -208,20 +242,41 @@
                     />
                     <ng-container *ngIf="NationalId.touched">
                       <div
-                        *ngIf="NationalId.hasError('required')"
+                        *ngIf="NationalId.hasError('requiredError')"
                         class="form-text text-danger"
                       >
-                        من فضلك ادخل رقم قومي
+                        {{ NationalId.getError("requiredError") }}
                       </div>
                       <div
-                        *ngIf="NationalId.hasError('pattern')"
+                        *ngIf="NationalId.hasError('patternError')"
                         class="form-text text-danger"
                       >
-                        من فضلك ادخل رقم قومي صحيح
+                        {{ NationalId.getError("patternError") }}
+                      </div>
+                      <div
+                        *ngIf="NationalId.hasError('lengthError')"
+                        class="form-text text-danger"
+                      >
+                        {{ NationalId.getError("lengthError") }}
+                      </div>
+                    </ng-container>
+                    <ng-container
+                      *ngIf="NationalId.touched && Birthdate.touched"
+                    >
+                      <div
+                        *ngIf="EmployeeForm.hasError('mismatch')"
+                        class="form-text text-danger"
+                      >
+                        الرقم القومي لا يتناسب مع تاريخ الميلاد
                       </div>
                     </ng-container>
                   </div>
                   <div class="col-xl-6">
+                    <span
+                      *ngIf="Nationality.hasError('required')"
+                      class="text-danger"
+                      >*</span
+                    >
                     <label for="exampleFormControlInput5" class="form-label">
                       الجنسيه</label
                     >
@@ -248,6 +303,11 @@
               <form [formGroup]="EmployeeForm">
                 <div class="row">
                   <div class="col-xl-6">
+                    <span
+                      *ngIf="HireDate.hasError('required')"
+                      class="text-danger"
+                      >*</span
+                    >
                     <label for="exampleFormControlInput1" class="form-label">
                       تاريخ التعاقد</label
                     >
@@ -256,7 +316,16 @@
                       type="date"
                       id="example"
                       class="form-control"
+                      min="2008-01-01"
+                      [max]="maxHireDate"
                     />
+                    <ng-container *ngIf="HireDate.touched && Birthdate.touched">
+                    <div *ngIf="EmployeeForm.hasError('AgeDateInvalid')"
+                    class="form-text text-danger">
+                      تاريخ التعاقد لا يتناسب مع تاريخ الميلاد
+                    </div>
+                    </ng-container>
+
                     <ng-container *ngIf="HireDate.touched">
                       <div
                         *ngIf="HireDate.hasError('required')"
@@ -273,6 +342,11 @@
                     </ng-container>
                   </div>
                   <div class="col-xl-6">
+                    <span
+                      *ngIf="Salary.hasError('required')"
+                      class="text-danger"
+                      >*</span
+                    >
                     <label for="exampleFormControlInput2" class="form-label">
                       الراتب</label
                     >
@@ -300,6 +374,11 @@
                 </div>
                 <div class="row">
                   <div class="col-xl-6">
+                    <span
+                      *ngIf="CheckinTime.hasError('required')"
+                      class="text-danger"
+                      >*</span
+                    >
                     <label for="exampleFormControlInput3" class="form-label">
                       موعد الحضور</label
                     >
@@ -320,6 +399,11 @@
                     </ng-container>
                   </div>
                   <div class="col-xl-6">
+                    <span
+                      *ngIf="CheckoutTime.hasError('required')"
+                      class="text-danger"
+                      >*</span
+                    >
                     <label for="exampleFormControlInput3" class="form-label">
                       موعد الانصراف</label
                     >
@@ -344,7 +428,11 @@
             </div>
           </div>
           <div class="modal-footer">
-            <button *ngIf="!isEdited" type="button" class="btn btn-outline-danger">
+            <button
+              *ngIf="!isEdited"
+              type="button"
+              class="btn btn-outline-danger"
+            >
               تراجع
             </button>
             <button
@@ -385,10 +473,7 @@
           <div class="modal-header"></div>
           <div class="modal-body">تم الحفظ بنجاح</div>
           <div class="modal-footer">
-            <button
-              class="btn btn-outline-success"
-              data-bs-dismiss="modal"
-            >
+            <button class="btn btn-outline-success" data-bs-dismiss="modal">
               تم
             </button>
           </div>

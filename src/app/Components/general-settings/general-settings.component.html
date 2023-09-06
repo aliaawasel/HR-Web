@@ -11,6 +11,9 @@
           <label for="exampleFormControlInput4" class="form-label"
             >الاضافه</label
           >
+          <span *ngIf="AddHour.hasError('required')" class="text-danger fs-5">
+            *
+          </span>
           <input
             [readonly]="this.allowEdite"
             formControlName="AddHour"
@@ -30,6 +33,9 @@
           <label for="exampleFormControlInput4" class="form-label">
             الخصم</label
           >
+          <span *ngIf="SubHour.hasError('required')" class="text-danger fs-5">
+            *
+          </span>
           <input
             [readonly]="this.allowEdite"
             formControlName="SubHour"
@@ -52,6 +58,9 @@
           <label for="exampleFormControlInput4" class="form-label"
             >يوم الاجازه الرسمي 1</label
           >
+          <span *ngIf="Vocation1.hasError('required')" class="text-danger fs-5">
+            *
+          </span>
           <div class="input-group mb-3">
             <select
               formControlName="Vocation1"
@@ -79,6 +88,9 @@
             <label for="exampleFormControlInput4" class="form-label"
               >يوم الاجازه الرسمي 2</label
             >
+            <span *ngIf="Vocation2.hasError('required')" class="text-danger fs-5">
+              *
+            </span>
             <div class="input-group mb-3">
               <select
                 formControlName="Vocation2"

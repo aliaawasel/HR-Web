@@ -2,7 +2,7 @@
 <div class="container" dir="ltr">
   <div class="row">
     <div class="col-xl-1">
-      <button class="btn btn-success" (click)="printPage()">
+      <button class="btn btn-success" (click)="onPreview()">
         طباعه <i class="fa fa-print"></i>
       </button>
     </div>
@@ -252,18 +252,18 @@
             <div class="row">
               <div class="col-xl-11">
                 <input
-                  (change)="GetByName(filter.value)"
+                [(ngModel)]="search"
                   formControlName="searchName"
                   id="search-input"
                   type="search"
                   class="form-control"
-                  #filter
                   placeholder="بحث بالاسم "
+                  (change)="GetByName()"
                 />
               </div>
               <div class="col-xl-1">
                 <button
-                  (click)="GetByName(filter.value)"
+                  (click)="GetByName()"
                   id="search-button"
                   type="button"
                   class="btn btn-success"
@@ -295,7 +295,7 @@
                   </tr>
                 </thead>
                 <tbody>
-                  <tr *ngFor="let a of Attendances | paginate  : {
+                  <tr *ngFor="let a of Attendances |filter:search |paginate  : {
                     itemsPerPage: tableSize,
                     currentPage: page,
                     totalItems: count
@@ -376,6 +376,7 @@
                 </pagination-controls>
               </div>
             </div>
+        </section>
 
           <!--Modaaaals-->
           <div
@@ -439,7 +440,7 @@
               </div>
             </div>
           </div>
-        </section>
+        <!-- </section> -->
       </div>
     </div>
   </div>

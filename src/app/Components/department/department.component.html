@@ -7,12 +7,23 @@
       <label for="exampleFormControlInput1" class="form-label"
         >ادخل اسم القسم</label
       >
+      <span *ngIf="getDeptName.hasError('required')" class="text-danger fs-5">
+        *
+      </span>
+
       <input
         formControlName="DeptName"
         type="text"
         class="form-control"
         id="exampleFormControlInput1"
+        #Dept
       />
+      <div
+        *ngIf="AddedBefore && Dept.value != ''"
+        class="form-text text-danger"
+      >
+        هذا القسم مضاف من قبل
+      </div>
       <ng-container *ngIf="getDeptName.touched">
         <div
           *ngIf="getDeptName.hasError('required')"
@@ -30,80 +41,90 @@
         </div>
       </ng-container>
     </div>
-    <button *ngIf="!isEdited" [disabled]="!DepartmentForm.valid"
-    type="button" class="btn btn-danger" (click)="AddDepartment()">
+    <button
+      *ngIf="!isEdited"
+      [disabled]="!DepartmentForm.valid"
+      type="button"
+      class="btn btn-danger"
+      (click)="AddDepartment()"
+    >
       أضافه
     </button>
-    <button [disabled]="!DepartmentForm.valid" *ngIf="isEdited" type="button" class="btn btn-danger" (click)="SaveUpdate()">
+    <button
+      [disabled]="!DepartmentForm.valid"
+      *ngIf="isEdited"
+      type="button"
+      class="btn btn-danger"
+      (click)="SaveUpdate()"
+    >
       حفظ التعديل
     </button>
   </form>
   <div class="table-responsive">
-  <table class="table table-striped table-hover">
-    <thead>
-      <tr>
-        <th scope="col">م</th>
-        <th scope="col">اسم القسم</th>
-        <th>حذف</th>
-        <th>تعديل</th>
-      </tr>
-    </thead>
-    <tbody>
-      <tr *ngFor="let d of Departments; let i = index">
-        <td>{{ i + 1 }}</td>
-        <td>{{ d.name }}</td>
-        <td>
-          <button
+    <table class="table table-striped table-hover">
+      <thead>
+        <tr>
+          <th scope="col">م</th>
+          <th scope="col">اسم القسم</th>
+          <th>حذف</th>
+          <th>تعديل</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let d of Departments; let i = index">
+          <td>{{ i + 1 }}</td>
+          <td>{{ d.name }}</td>
+          <td>
+            <button
             type="button"
-            class="btn btn-danger"
+            class="btn btn-outline-danger"
             data-bs-toggle="modal"
-            data-bs-target="#exampleModal"
-          >
-            <i class="fa fa-trash" aria-hidden="true"></i>
-          </button>
-          <!-- Modal -->
-          <div
-            class="modal fade"
-            id="exampleModal"
-            tabindex="-1"
-            aria-labelledby="exampleModalLabel"
-            aria-hidden="true"
-          >
-            <div class="modal-dialog modal-dialog-centered">
-              <div class="modal-content">
-                <div class="modal-body">
-                  أنت على وشك حذف هذا القسم هل انت متأكد؟
+            data-bs-target="#exampleModalDelete"
+            (click)="SelectID(d.id)"
+            >
+              <i class="fa fa-trash" aria-hidden="true"></i>
+            </button>
+            <!-- Modal -->
+            <div
+              class="modal fade"
+              id="exampleModalDelete"
+              tabindex="-1"
+              aria-labelledby="exampleModalLabel"
+              aria-hidden="true"
+            >
+              <div class="modal-dialog modal-dialog-centered">
+                <div class="modal-content">
+                  <div class="modal-body">
+                    أنت على وشك حذف هذا القسم هل انت متأكد؟
+                  </div>
+                  <div class="modal-footer">
+                    <button
+                      type="button"
+                      class="btn btn-primary"
+                      data-bs-dismiss="modal"
+                    >
+                      تراجع
+                    </button>
+                    <button
+                      type="button"
+                      (click)="DeleteDepartment()"
+                      class="btn btn-danger"
+                      data-bs-dismiss="modal"
+                    >
+                      حذف
+                    </button>
+                  </div>
                 </div>
-                <div class="modal-footer">
-                  <button
-                    type="button"
-                    class="btn btn-primary"
-                    data-bs-dismiss="modal"
-                  >
-                    تراجع
-                  </button>
-                  <button
-                    type="button"
-                    (click)="DeleteDepartment(d.id)"
-                    class="btn btn-danger"
-                    data-bs-dismiss="modal"
-                  >
-                    حذف
-                  </button>
-              </div>
               </div>
             </div>
-          </div>
-        </td>
-        <td>
-          <button
-          class="btn btn-success"
-          (click)="UpdateDepartment(d.id)"
-          >
-          <i class="fa fa-pencil-square"></i>
-        </button>
-    </td>
-      </tr>
-    </tbody>
-  </table>
+          </td>
+          <td>
+            <button class="btn btn-success" (click)="UpdateDepartment(d.id)">
+              <i class="fa fa-pencil-square"></i>
+            </button>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
 </div>

@@ -10,7 +10,7 @@ baseUrl:string="https://localhost:7180/api/User"
   GetAllUsers(){
     return this.http.get(`${this.baseUrl}/all`)
     }
-    GetById(id:number){
+    GetById(id:string){
       return this.http.get(`${this.baseUrl}/GetById/${id}`)
       }
   AddUser(data:any){
@@ -24,5 +24,11 @@ baseUrl:string="https://localhost:7180/api/User"
   }
   GetGroups(){
     return this.http.get("https://localhost:7180/api/Group/all")
+  }
+  CheckFound(username:any){
+    return this.http.get(`${this.baseUrl}/IFfound/?username=${username}`)
+  }
+  CheckEmail(mail:any){
+    return this.http.get(`${this.baseUrl}/FounMail?mail=${mail}`)
   }
 }
